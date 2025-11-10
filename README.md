@@ -24,9 +24,12 @@ npm install -D tailwindcss@next postcss autoprefixer
 ### 🧩 Instalar submodule `domain`
 ```bash
 git submodule add https://github.com/SKRTEEEEEE/log-ui-ts.git log-ui-ts
+# or
 git submodule update --init --recursive
 ```
 ### 🧭 Configurar alias
 En `tsconfig.json` añade la ruta `"@log-ui/*": ["./log-ui-ts/*"]` para poder importar acciones, componentes y core sin paths relativos 🎯
 ### 🧵 Importar globals.css
 En tu `app/globals.css` importa `@log-ui/lib/globals.css` para heredar tipografías, gradientes y utilidades de Tailwind que usa el header ✨
+### 🎛️ Configurar vercel.json
+`"installCommand": "git submodule update --init --recursive && npm install"`
