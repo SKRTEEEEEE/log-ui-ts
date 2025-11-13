@@ -1,5 +1,5 @@
 import { GenerateLoginPayloadParams, LoginPayload, VerifyLoginPayloadParams, VerifyLoginPayloadResult } from "thirdweb/auth";
-import { RoleType } from "@/core/domain/entities/role.type";
+import { RoleType } from "@log-ui/core/domain/entities/role.type";
 import { createAuth } from "thirdweb/auth";
 import { JWTPayload } from "thirdweb/utils";
 

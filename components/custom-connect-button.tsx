@@ -167,11 +167,11 @@ export const CustomConnectButton = ({
           ),
         }}
         auth={{
-            isLoggedIn: async (address:string )=> {
+            isLoggedIn: async (address: string) => {
                 console.info("check if logged in: ", {address})
                 return await isLoggedIn()
             },
-            doLogin: async (params) => {
+            doLogin: async (params: any) => {
                 console.info("logging in!")
                 const loginResult = await login(params)
                 if (loginResult && loginResult.userData) {
@@ -180,7 +180,7 @@ export const CustomConnectButton = ({
                   setIsLogged(true)
                 }
             },
-            getLoginPayload: async ({address}) => generatePayload({address}),
+            getLoginPayload: async ({ address }: { address: string }) => generatePayload({ address }),
             doLogout:async () => {
               await fetch('/api/logout', { method: 'GET' });
               setIsLogged(false)

@@ -5,7 +5,7 @@ import ThemePopover from "../theme-popover";
 import { Link } from "@/lib/i18n/routing";
 import { CustomConnectButton } from "../custom-connect-button";
 import { userInCookiesUC } from "@log-ui/core/presentation/controllers/user";
-import { MobileNav, type SiteNavConfig, type SiteNavPath } from "./mobile-nav";
+import { MobileNav, type SiteNavConfig } from "./mobile-nav";
 import { AppsMenu } from "./apps-menu";
 
 const siteConfig = {
@@ -70,7 +70,7 @@ export async function SiteHeader() {
       <div className="container flex h-14 max-w-screen-2xl items-center">
         <nav className="flex items-center space-x-4 lg:space-x-6">
           {/* Logo */}
-          <Link href={dataSiteConfig.logo.path} className="hidden md:flex items-center gap-2">
+          <Link href={dataSiteConfig.logo.path as any} className="hidden md:flex items-center gap-2">
             {dataSiteConfig.logo.render}
           </Link>
 
@@ -80,7 +80,7 @@ export async function SiteHeader() {
           {dataSiteConfig.paths.map((path) => (
             <Link
               key={path.id}
-              href={path.path}
+              href={path.path as any}
               className="text-sm font-medium transition-colors hover:text-primary hidden md:inline-block"
             >
               {path.title}
@@ -104,7 +104,7 @@ export async function SiteHeader() {
               ) : (
                 <Link
                   key={item.id}
-                  href={item.path as SiteNavPath}
+                  href={item.path as any}
                   className={cn(buttonVariants({ variant: "ghost" }), "w-10 px-0 inline-flex")}
                 >
                   {item.render}

@@ -9,7 +9,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { Link } from "@/lib/i18n/routing";
-import { useMediaQuery } from "@/lib/hooks/use-media-query";
+import { useMediaQuery } from "@log-ui/lib/hooks/use-media-query";
 import { ListItem } from "./list-item";
 
 export function AppsMenu() {

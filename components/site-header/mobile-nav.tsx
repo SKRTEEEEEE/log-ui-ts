@@ -9,16 +9,14 @@ import { Link } from "@/lib/i18n/routing";
 import { CustomConnectButton } from "../custom-connect-button";
 import UserFormDialog from "./user-form-dialog";
 
-export type SiteNavPath = "/" | "/ejercicios" | "/tarifas" | "/temas-ejercicios";
-
-export type SiteNavConfig = {
+export type SiteNavConfig<TPath = string> = {
   logo: {
-    path: SiteNavPath;
+    path: TPath;
     render: ReactNode;
   };
   paths: {
     id: string;
-    path: SiteNavPath;
+    path: TPath;
     title: string;
   }[];
   icons: {
@@ -41,12 +39,12 @@ type HeaderUser = {
   solicitud: string | null;
 } | null;
 
-type MobileNavProps = {
-  dataSiteConfig: SiteNavConfig;
+type MobileNavProps<TPath = string> = {
+  dataSiteConfig: SiteNavConfig<TPath>;
   user: HeaderUser;
 };
 
-export function MobileNav({ dataSiteConfig, user }: MobileNavProps) {
+export function MobileNav<TPath = string>({ dataSiteConfig, user }: MobileNavProps<TPath>) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -59,7 +57,7 @@ export function MobileNav({ dataSiteConfig, user }: MobileNavProps) {
       <SheetContent side="right" className="flex flex-col gap-4">
         <SheetTitle>
           <Link
-            href={dataSiteConfig.logo.path}
+            href={dataSiteConfig.logo.path as any}
             className="flex items-center gap-2 text-xl font-semibold"
             onClick={() => setOpen(false)}
           >
@@ -71,7 +69,7 @@ export function MobileNav({ dataSiteConfig, user }: MobileNavProps) {
           {dataSiteConfig.paths.map((path) => (
             <Link
               key={path.id}
-              href={path.path}
+              href={path.path as any}
               className="text-base font-medium"
               onClick={() => setOpen(false)}
             >
@@ -94,7 +92,7 @@ export function MobileNav({ dataSiteConfig, user }: MobileNavProps) {
             ) : (
               <Link
                 key={icon.id}
-                href={icon.path as SiteNavPath}
+                href={icon.path as any}
                 className="text-base font-medium"
                 onClick={() => setOpen(false)}
               >

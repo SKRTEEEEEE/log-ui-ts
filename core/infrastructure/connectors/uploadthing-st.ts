@@ -33,7 +33,8 @@ class ConcreteUploadThingAdapter extends UploadThingAdapter {
           if (user === false) throw new UploadThingError("Unauthorized");
 
           // Whatever is returned here is accessible in onUploadComplete as `metadata`
-          return { userId: user.sub };
+          // return { userId: user.sub }; //OJO CON ESTO!!!Lo ha hecho la IA i nose pq
+          return { userId: user.ctx.id };
         })
         .onUploadComplete(async ({ metadata, file }) => {
           // This code RUNS ON YOUR SERVER after upload
