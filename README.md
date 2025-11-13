@@ -1,35 +1,48 @@
 # Log Ui Ts
-Submodule usado para unificar ciertas partes de los micro-frontend
-## ⚙️ Necesario para usar en el repositorio
-Antes de enlazar este submódulo asegúrate de tener tu microfrontend con App Router listo y Node 18+. Sin esto la autenticación no arranca 💥
+Submodule compartido para unificar componentes, autenticación y core entre micro-frontends Next.js
+## ⚙️ Requisitos
+App Router (Next.js 15+), Node 18+, Tailwind CSS 4 con shadcn/ui configurado 🚀
 ### 🎨 Shadcn/ui
-Componentes ya generados (ejecuta `npx shadcn@latest init` si no los tienes) para que los imports `@/components/ui/*` resuelvan sin drama 🎯
+Componentes UI necesarios: `button`, `dialog`, `dropdown-menu`, `navigation-menu`, `popover`, `avatar`, `sheet`, `separator`, `input`, `form`, `select`, `label`, `alert`, `tabs`. Instala con `npx shadcn@latest add [componente]` para que `@/components/ui/*` resuelva correctamente 🎯
 ### 🔐 Thirdweb
-Cliente + auth server-side listos con `NEXT_PUBLIC_THIRDWEB_CLIENT_ID`, `NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN` y `THIRDWEB_ADMIN_PRIVATE_KEY`; sin esas envs el connect button no aparece 🔐
-### 🌈 TailwindCss
-Proyecto migrado a Tailwind CSS 4 con los presets de shadcn; respeta `@log-ui/lib/globals.css` o se rompen los tokens 🌈
+Env vars requeridas: `NEXT_PUBLIC_THIRDWEB_CLIENT_ID`, `NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN`, `THIRDWEB_ADMIN_PRIVATE_KEY`. Sin ellas el ConnectButton no renderiza 🔐
+### 🌈 Tailwind CSS 4
+Respeta `@log-ui/lib/globals.css` para tokens de color, gradientes y temas. Rompe diseños sin esta importación 🌈
 ### 🌓 next-themes
-Necesario para el toggle de tema y el header responsive; instala `next-themes` y añade su provider en tu layout 🌓
+Requerido para toggle de tema y persistencia. Provider debe envolver tu app en el layout raíz 🌓
 ### 📤 uploadthing
-Activa subida de imágenes y avatars compartidos; define el router en tu API y respeta los permisos del auth repo para que las sesiones validen antes de subir 🚀
-### 🌍 i18n -- Future
-Reservado para locales compartidos; mantén tu `next-intl` listo porque cuando se active tomará los textos del dominio central 🧭
-## 🚀 Empezar
-Pasos rápidos para enchufar el módulo sin dolores 🛠️
-### 📦 Instalar en raíz del proyecto
+Router en `/api/uploadthing` usando `@log-ui/core/infrastructure/connectors/uploadthing-st`. Auth middleware valida JWT antes de upload 🚀
+### 🌍 next-intl
+`SiteNavConfig<TPath>` es genérico para soportar tus rutas personalizadas. Define paths en `routing.ts` del host y pásalos al config 🧭
+## 🚀 Setup Rápido
+### 📦 Dependencias
 ```bash
-npm install thirdweb uploadthing @uploadthing/react next-themes
-npm install -D tailwindcss@next postcss autoprefixer
+npm install thirdweb uploadthing @uploadthing/react next-themes react-hook-form @hookform/resolvers zod
+npm install @radix-ui/react-label @radix-ui/react-select @radix-ui/react-separator @radix-ui/react-tabs
 ```
-### 🧩 Instalar submodule `domain`
+### 🧩 Submodule
 ```bash
 git submodule add https://github.com/SKRTEEEEEE/log-ui-ts.git log-ui-ts
-# or
 git submodule update --init --recursive
 ```
-### 🧭 Configurar alias
-En `tsconfig.json` añade la ruta `"@log-ui/*": ["./log-ui-ts/*"]` para poder importar acciones, componentes y core sin paths relativos 🎯
-### 🧵 Importar globals.css
-En tu `app/globals.css` importa `@log-ui/lib/globals.css` para heredar tipografías, gradientes y utilidades de Tailwind que usa el header ✨
-### 🎛️ Configurar vercel.json
-`"installCommand": "git submodule update --init --recursive && npm install"`
+### 🧭 tsconfig.json
+```json
+"paths": {
+  "@/*": ["./src/*"],
+  "@log-ui/*": ["./log-ui-ts/*"]
+}
+```
+### 🎨 globals.css
+```css
+@import "@log-ui/lib/globals.css";
+```
+### 🏗️ Core Architecture
+- `@log-ui/core`: Domain entities, repos base, flows compartidos (úsalo para tipos y lógica)
+- `@/components/ui`: UI components del host (log-ui importa desde aquí)
+- `@log-ui/lib/hooks`: Hooks compartidos como `use-media-query`
+### 🎛️ Vercel Deploy
+```json
+{ "installCommand": "git submodule update --init --recursive && npm install" }
+```
+## 🔧 Uso
+Importa acciones con `@log-ui/actions/*`, componentes con `@log-ui/components/*`, y core con `@log-ui/core/*`. Los componentes de navegación aceptan `SiteNavConfig<TPath>` genérico para tus rutas específicas 🎯
