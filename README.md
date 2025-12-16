@@ -1,7 +1,24 @@
 # Log Ui Ts
 Submodule compartido para unificar componentes, autenticación y core entre micro-frontends Next.js
+
 ## ⚙️ Requisitos
 App Router (Next.js 15+), Node 18+, Tailwind CSS 4 con shadcn/ui configurado 🚀
+
+### 📦 Domain Package
+Este submodule depende de `@skrteeeeee/profile-domain` para tipos de dominio compartidos. **Importante:** El package NO se instala en log-ui-ts sino en el proyecto host que lo usa (ej: admin-next, agora-next).
+
+**Configurar en el proyecto host:**
+```bash
+# 1. Crear .npmrc en la raíz del proyecto
+echo "@skrteeeeee:registry=https://npm.pkg.github.com" > .npmrc
+
+# 2. Instalar el package
+npm install @skrteeeeee/profile-domain
+
+# 3. log-ui-ts usará el package desde node_modules del host
+```
+
+**GitHub Token requerido:** Necesitas un token con scope `read:packages`. Sigue las [instrucciones de instalación](https://github.com/SKRTEEEEEE/profile-domain#installation).
 ### 🎨 Shadcn/ui
 Componentes UI necesarios: `button`, `dialog`, `dropdown-menu`, `navigation-menu`, `popover`, `avatar`, `sheet`, `separator`, `input`, `form`, `select`, `label`, `alert`, `tabs`. Instala con `npx shadcn@latest add [componente]` para que `@/components/ui/*` resuelva correctamente 🎯
 ### 🔐 Thirdweb
