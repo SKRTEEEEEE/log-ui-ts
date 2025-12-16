@@ -3,7 +3,7 @@
 import { apiUpdateUserUC, apiDeleteUserUC, apiUpdateUserSolicitudUC, apiResendVerificationEmailUC } from "@log-ui/core/application/usecases/entities/user";
 import { revalidatePath } from "next/cache";
 import { LoginPayload } from "thirdweb/auth";
-import { RoleType } from "@log-ui/core/domain/entities/role.type";
+import { RoleType } from "@skrteeeeee/profile-domain";
 
 
 export async function updateUser(

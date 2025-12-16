@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import Link from "next/link"
 import { updateUserSolicitud } from "@log-ui/actions/user"
 import { useState } from "react"
-import { RoleType } from "@log-ui/core/domain/entities/role.type";
+import { RoleType } from "@skrteeeeee/profile-domain";
 
 const formSchema = z.object({
     solicitud: z.enum([RoleType.ADMIN]).nullable()

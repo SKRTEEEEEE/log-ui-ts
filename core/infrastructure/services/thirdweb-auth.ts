@@ -6,8 +6,7 @@ import { ThirdwebAuthAdapter } from "../connectors/thirdweb-auth";
 //Para hacer-lo bien estas funciones no se deberian usar aquí⚠️🧠👨‍🎓!
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { UnauthorizedError } from "@log-ui/core/domain/flows/domain.error";
-import { RoleType } from "@log-ui/core/domain/entities/role.type";
+import { UnauthorizedError, RoleType } from "@skrteeeeee/profile-domain";
 import { AuthRepository, ExtendedJWTPayload, JWTContext } from "@log-ui/core/application/interfaces/services/auth";
 
 class ThirdwebAuthRepository extends ThirdwebAuthAdapter implements AuthRepository {

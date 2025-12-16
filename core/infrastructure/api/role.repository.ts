@@ -1,6 +1,6 @@
 import { ApiBaseRepository, Modules, ApiResponseError } from "./base.repository";
 import { cookies } from "next/headers";
-import { RoleBase } from "@log-ui/core/domain/entities/role.d";
+import { RoleBase } from "@skrteeeeee/profile-domain";
 
 export class ApiRoleRepository extends ApiBaseRepository {
   constructor(baseUrl?: string) {

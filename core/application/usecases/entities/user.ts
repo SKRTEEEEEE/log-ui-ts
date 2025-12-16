@@ -1,6 +1,6 @@
 import { VerifyLoginPayloadParams } from "thirdweb/auth";
 import { ApiUserRepository, UserUpdateData } from "@log-ui/core/infrastructure/api/user.repository";
-import { RoleType } from "@log-ui/core/domain/entities/role.type";
+import { RoleType } from "@skrteeeeee/profile-domain";
 
 const apiUserRepository = new ApiUserRepository(process.env.NEXT_PUBLIC_BACKEND_URL);
 

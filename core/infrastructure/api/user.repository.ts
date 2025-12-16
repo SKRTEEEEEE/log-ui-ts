@@ -1,7 +1,7 @@
 import { ApiBaseRepository, Modules, ApiResponseError } from "./base.repository";
 import { cookies } from "next/headers";
 import { VerifyLoginPayloadParams } from "thirdweb/auth";
-import { RoleType } from "@log-ui/core/domain/entities/role.type";
+import { RoleType } from "@skrteeeeee/profile-domain";
 import { setJwtUC } from "@log-ui/core/application/usecases/services/auth";
 
 export type UserUpdateData = {

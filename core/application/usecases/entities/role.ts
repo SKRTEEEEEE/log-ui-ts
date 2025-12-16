@@ -1,4 +1,4 @@
-import { RoleBase } from "@log-ui/core/domain/entities/role.d";
+import { RoleBase } from "@skrteeeeee/profile-domain";
 import { ApiRoleRepository } from "@log-ui/core/infrastructure/api/role.repository";
 
 const apiRoleRepository = new ApiRoleRepository(process.env.NEXT_PUBLIC_BACKEND_URL);
