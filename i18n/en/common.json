@@ -1,0 +1,73 @@
+{
+    "common": {
+        "previous": "Previous",
+        "next": "Next",
+        "lang": "Language"
+    },
+    "userProfile": {
+        "config": "Settings",
+        "configUser": "User settings",
+        "editProfile": "Edit profile",
+        "editInfo": "Edit your user information",
+        "nick": "Nickname",
+        "nickPlaceholder": "👾 5 to 25 characters",
+        "nickDescription": "This will be your public name.",
+        "email": "Email",
+        "emailPlaceholder": "example@email.com",
+        "emailDescription": "Email for verification.",
+        "profileImage": "Profile Image",
+        "modifyImage": "Modify image",
+        "imageDescription": "Max size: 4MB. Formats: PNG, JPG, GIF, WEBP",
+        "close": "Close",
+        "uploadingImage": "Uploading image...",
+        "loginToUpdate": "Log in to update",
+        "updateProfile": "Update Profile",
+        "nickMinError": "⚠️ Must be at least 5 characters.",
+        "nickMaxError": "⚠️ Must be at most 25 characters.",
+        "emailError": "Email must be valid",
+        "deleteAccount": "Delete account",
+        "deleteUser": "Delete user",
+        "deleteWarning": "Irreversible action, enter",
+        "deleteWarningEnd": "to delete your account.",
+        "verification": "Verification",
+        "verificationPlaceholder": "Enter your address here",
+        "deleteDescription": "Once this action is performed, you will lose all your information such as completed courses or privileges.",
+        "delete": "Delete",
+        "validationError": "The validation value must match the address.",
+        "yourWallet": "Your wallet",
+        "walletSettings": "Your wallet settings",
+        "emailNotVerified": "Email not verified",
+        "clickToVerify": "Click below to verify your email.",
+        "sending": "Sending...",
+        "receiveValidationEmail": "Receive validation email",
+        "verificationEmailSent": "Verification email sent",
+        "checkInbox": "Please check your inbox/spam folder.",
+        "requestRole": "Request role",
+        "requestRoleTitle": "Request Role",
+        "roleRequestDescription": "You will be notified by email once confirmed and configured. Thank you!",
+        "privilege": "Privilege",
+        "selectRole": "Select role",
+        "noPrivileges": "No privileges",
+        "teacher": "Teacher",
+        "admin": "Admin",
+        "requestRoleDescription": "Request the configuration of the role agreed with the company.",
+        "infoHere": "Information here",
+        "requesting": "Requesting",
+        "request": "Request",
+        "clickToLoadImage": "Click to load an image"
+    },
+    "apps": {
+        "profile": {
+            "title": "Developer",
+            "description": "Information about the developer and their experience."
+        },
+        "agora": {
+            "title": "Blog",
+            "description": "Blog and training for developers. Sample SaaS."
+        },
+        "admin": {
+            "title": "Admin Dashboard",
+            "description": "Administration panel."
+        }
+    }
+}

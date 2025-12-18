@@ -4,6 +4,7 @@ import { AlertCircle } from "lucide-react";
 import { resendVerificationEmail } from "@log-ui/actions/user";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 type User = {
   id: string;
@@ -16,6 +17,7 @@ type User = {
 }
 
 export const VerificacionEmailAlert = ({ user }: { user: User }) => {
+    const t = useTranslations('userProfile');
     const [loading, setLoading] = useState(false);
     const [lastSent, setLastSent] = useState<number | null>(null);
 
@@ -61,16 +63,16 @@ export const VerificacionEmailAlert = ({ user }: { user: User }) => {
             return (
                 <Alert className="bg-yellow/10 border-accent">
                     <AlertCircle className="h-4 w-4" />
-                    <AlertTitle>Correo no verificado</AlertTitle>
+                    <AlertTitle>{t('emailNotVerified')}</AlertTitle>
                     <AlertDescription>
-                        Haz click abajo para verificar tu correo.
+                        {t('clickToVerify')}
                         <Button
                             className="align-end"
                             onClick={handleResend}
                             variant={"outline"}
                             disabled={loading}
                         >
-                            {loading ? "Enviando..." : "Recibir un correo de validación"}
+                            {loading ? t('sending') : t('receiveValidationEmail')}
                         </Button>
                     </AlertDescription>
                 </Alert>
@@ -80,9 +82,9 @@ export const VerificacionEmailAlert = ({ user }: { user: User }) => {
             return (
                 <Alert className="bg-gray/10 border-gray">
                     <AlertCircle className="h-4 w-4" />
-                    <AlertTitle>Correo de verificación enviado</AlertTitle>
+                    <AlertTitle>{t('verificationEmailSent')}</AlertTitle>
                     <AlertDescription>
-                        Por favor, revisa tu bandeja de entrada/spam.
+                        {t('checkInbox')}
                     </AlertDescription>
                 </Alert>
             );

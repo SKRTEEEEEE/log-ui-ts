@@ -11,12 +11,14 @@ import Link from "next/link"
 import { updateUserSolicitud } from "@log-ui/actions/user"
 import { useState } from "react"
 import { RoleType } from "@skrteeeeee/profile-domain";
+import { useTranslations } from "next-intl";
 
 const formSchema = z.object({
     solicitud: z.enum([RoleType.ADMIN]).nullable()
 })
 
 export default function SolicitudRoleButton({id}:{id:string}){
+      const t = useTranslations('userProfile');
       const [loading, setLoading] = useState(false)
       const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -42,36 +44,36 @@ export default function SolicitudRoleButton({id}:{id:string}){
         <Dialog>
         <DialogTrigger asChild>
             <Button variant="ghost" >
-                Solicitar rol
+                {t('requestRole')}
             </Button>
         </DialogTrigger>
         <DialogContent>
             <DialogHeader>
-                <DialogTitle>Solicitar Rol</DialogTitle>
+                <DialogTitle>{t('requestRoleTitle')}</DialogTitle>
                 <DialogDescription>
-                  Serás comunicado por correo una vez confirmado y configurado. Gracias!
+                  {t('roleRequestDescription')}
                 </DialogDescription>
             </DialogHeader>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                     <FormField control={form.control} name="solicitud" render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Privilegio</FormLabel>
+                        <FormLabel>{t('privilege')}</FormLabel>
                         <Select onValueChange={value => field.onChange(value === "NONE" ? null : value)} defaultValue={ field.value === null ? undefined : field.value }>               
                            <FormControl>
                             <SelectTrigger> 
-                              <SelectValue placeholder="Selecciona el rol" />
+                              <SelectValue placeholder={t('selectRole')} />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="NONE">Sin privilegios</SelectItem>
-                            <SelectItem value="PROF_TEST">Profesor</SelectItem>
-                            <SelectItem value="ADMIN">Admin</SelectItem>
+                            <SelectItem value="NONE">{t('noPrivileges')}</SelectItem>
+                            <SelectItem value="PROF_TEST">{t('teacher')}</SelectItem>
+                            <SelectItem value="ADMIN">{t('admin')}</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormDescription>
-                          Solicita la configuración del rol acordado con la compañía. <br />
-                          <Link href="#">Información aquí.</Link>.
+                          {t('requestRoleDescription')} <br />
+                          <Link href="#">{t('infoHere')}</Link>.
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -79,11 +81,11 @@ export default function SolicitudRoleButton({id}:{id:string}){
                     <DialogFooter className="flex">
                     <Button disabled={loading} type="submit">
                         
-                        {loading? <>Solicitando</>:<>Solicitar</>}
+                        {loading? <>{t('requesting')}</>:<>{t('request')}</>}
                     </Button>
                     <DialogClose asChild>
         <Button type="button" variant="secondary">
-          Cerrar
+          {t('close')}
         </Button>
       </DialogClose></DialogFooter>
                 </form>

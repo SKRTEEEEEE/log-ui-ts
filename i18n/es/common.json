@@ -1,0 +1,73 @@
+{
+    "common": {
+        "previous": "Anterior",
+        "next": "Siguiente",
+        "lang": "Idioma"
+    },
+    "userProfile": {
+        "config": "Configuración",
+        "configUser": "Configuración usuario",
+        "editProfile": "Editar perfil",
+        "editInfo": "Editar tu información como usuario",
+        "nick": "Nick",
+        "nickPlaceholder": "👾 De 5 a 25 caracteres",
+        "nickDescription": "Este será tu nombre público.",
+        "email": "Email",
+        "emailPlaceholder": "ejemplo@correo.com",
+        "emailDescription": "Email para verificación.",
+        "profileImage": "Imagen Perfil",
+        "modifyImage": "Modificar imagen",
+        "imageDescription": "Tamaño máximo: 4MB. Formatos: PNG, JPG, GIF, WEBP",
+        "close": "Cerrar",
+        "uploadingImage": "Subiendo imagen...",
+        "loginToUpdate": "Inicia sesión para actualizar",
+        "updateProfile": "Actualizar Perfil",
+        "nickMinError": "⚠️ Debe tener 5 caracteres como mínimo.",
+        "nickMaxError": "⚠️ Debe tener 25 caracteres como máximo.",
+        "emailError": "El email debe ser válido",
+        "deleteAccount": "Eliminar cuenta",
+        "deleteUser": "Eliminar usuario",
+        "deleteWarning": "Acción irreversible, introduce",
+        "deleteWarningEnd": "para eliminar tu cuenta.",
+        "verification": "Verificación",
+        "verificationPlaceholder": "Introduce aquí tu dirección",
+        "deleteDescription": "Una vez realizada esta acción perderás toda tu información como cursos realizados o privilegios.",
+        "delete": "Eliminar",
+        "validationError": "El valor de validación debe coincidir con la dirección.",
+        "yourWallet": "Tu cartera",
+        "walletSettings": "Configuración de tu cartera",
+        "emailNotVerified": "Correo no verificado",
+        "clickToVerify": "Haz click abajo para verificar tu correo.",
+        "sending": "Enviando...",
+        "receiveValidationEmail": "Recibir un correo de validación",
+        "verificationEmailSent": "Correo de verificación enviado",
+        "checkInbox": "Por favor, revisa tu bandeja de entrada/spam.",
+        "requestRole": "Solicitar rol",
+        "requestRoleTitle": "Solicitar Rol",
+        "roleRequestDescription": "Serás comunicado por correo una vez confirmado y configurado. Gracias!",
+        "privilege": "Privilegio",
+        "selectRole": "Selecciona el rol",
+        "noPrivileges": "Sin privilegios",
+        "teacher": "Profesor",
+        "admin": "Admin",
+        "requestRoleDescription": "Solicita la configuración del rol acordado con la compañía.",
+        "infoHere": "Información aquí",
+        "requesting": "Solicitando",
+        "request": "Solicitar",
+        "clickToLoadImage": "Click para cargar una imagen"
+    },
+    "apps": {
+        "profile": {
+            "title": "Desarrollador",
+            "description": "Información sobre el desarrollador y su experiencia."
+        },
+        "agora": {
+            "title": "Blog",
+            "description": "Blog y formación para desarrolladores. SaaS de muestra."
+        },
+        "admin": {
+            "title": "Dashboard Admin",
+            "description": "Panel de administración."
+        }
+    }
+}

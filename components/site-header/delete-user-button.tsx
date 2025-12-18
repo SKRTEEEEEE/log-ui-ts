@@ -12,18 +12,21 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 
-const formSchema = z.object({
+const getFormSchema = (t: any) => z.object({
     address: z.string(),
     validation: z.string().trim(),
 }).refine((data) => data.validation.trim() === data.address.trim(), {
-    message: "El valor de validación debe coincidir con la dirección.",
+    message: t('validationError'),
     path: ['validation'],
 });
 
 export default function DeleteUserButton({ id, address }: { id: string; address: string }) {
+    const t = useTranslations('userProfile');
     const account = useActiveAccount();
     const wallet = useActiveWallet();
+    const formSchema = getFormSchema(t);
     
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -55,37 +58,37 @@ export default function DeleteUserButton({ id, address }: { id: string; address:
             <DialogTrigger className="gap-4" asChild>
                 <Button variant="destructive" disabled={!account}>
                     <UserX />
-                    Eliminar cuenta
+                    {t('deleteAccount')}
                 </Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Eliminar usuario</DialogTitle>
+                    <DialogTitle>{t('deleteUser')}</DialogTitle>
                     <DialogDescription>
-                        Acción irreversible, introduce <b>&quot;{address}&quot;</b> para eliminar tu cuenta.
+                        {t('deleteWarning')} <b>&quot;{address}&quot;</b> {t('deleteWarningEnd')}
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
                         <FormField control={form.control} name="validation" render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Verificación</FormLabel>
+                                <FormLabel>{t('verification')}</FormLabel>
                                 <FormControl>
-                                    <Input {...field} placeholder="Introduce aquí tu dirección" />
+                                    <Input {...field} placeholder={t('verificationPlaceholder')} />
                                 </FormControl>
                                 <FormMessage/>
                                 <FormDescription>
-                                    Una vez realizada esta acción perderás toda tu información como cursos realizados o privilegios.
+                                    {t('deleteDescription')}
                                 </FormDescription>
                             </FormItem>
                         )} />
                         <DialogFooter className="flex">
                             <Button variant="destructive" disabled={!account} type="submit">
-                                <UserX /> Eliminar
+                                <UserX /> {t('delete')}
                             </Button>
                             <DialogClose asChild>
                                 <Button type="button" variant="secondary">
-                                    Cerrar
+                                    {t('close')}
                                 </Button>
                             </DialogClose>
                         </DialogFooter>

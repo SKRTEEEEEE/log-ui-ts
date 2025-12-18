@@ -89,15 +89,19 @@ type User = {
 }
 
 export const CustomConnectButton = ({
-  connectButtonLabel="Iniciar sesión",
+  connectButtonLabel,
   initialUser = null,
   wrapperClassName,
   showUserFormButton = true,
+  locale = "es_ES",
+  walletTranslations = { yourWallet: 'Tu cartera', walletSettings: 'Configuración de tu cartera' },
 }:{
   connectButtonLabel?:string,
   initialUser?: User | null,
   wrapperClassName?: string,
-  showUserFormButton?: boolean
+  showUserFormButton?: boolean,
+  locale?: "es_ES" | "en_US" | "ja_JP" | "tl_PH",
+  walletTranslations?: { yourWallet: string; walletSettings: string }
 }) =>{
     const [img, setImg] = useState<string|undefined>(initialUser?.img || undefined)
     const [user, setUser] = useState<User | null>(initialUser)
@@ -139,7 +143,7 @@ export const CustomConnectButton = ({
             size: "compact",
             showThirdwebBranding: false,
           }}
-        locale={"es_ES"}
+        locale={locale}
         detailsModal={{
             footer: () => <div className="w-full text-2xl"><p>SKRT👾</p></div>,
             hideSwitchWallet: true,
@@ -161,8 +165,8 @@ export const CustomConnectButton = ({
           render: () => (
             <Button variant={"outline"} className="w-full px-2">
               <Wallet width={20} height={20} />
-              <span className="inline-block sm:hidden px-2">Tu cartera</span>
-              <p className="hidden sm:sr-only">Configuración de tu cartera</p>
+              <span className="inline-block sm:hidden px-2">{walletTranslations.yourWallet}</span>
+              <p className="hidden sm:sr-only">{walletTranslations.walletSettings}</p>
             </Button>
           ),
         }}

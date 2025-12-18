@@ -1,0 +1,73 @@
+{
+    "common": {
+        "previous": "Anterior",
+        "next": "Següent",
+        "lang": "Idioma"
+    },
+    "userProfile": {
+        "config": "Configuració",
+        "configUser": "Configuració d'usuari",
+        "editProfile": "Editar perfil",
+        "editInfo": "Edita la teva informació com a usuari",
+        "nick": "Àlies",
+        "nickPlaceholder": "👾 De 5 a 25 caràcters",
+        "nickDescription": "Aquest serà el teu nom públic.",
+        "email": "Correu electrònic",
+        "emailPlaceholder": "exemple@correu.com",
+        "emailDescription": "Correu electrònic per a verificació.",
+        "profileImage": "Imatge de Perfil",
+        "modifyImage": "Modificar imatge",
+        "imageDescription": "Mida màxima: 4MB. Formats: PNG, JPG, GIF, WEBP",
+        "close": "Tancar",
+        "uploadingImage": "Pujant imatge...",
+        "loginToUpdate": "Inicia sessió per actualitzar",
+        "updateProfile": "Actualitzar Perfil",
+        "nickMinError": "⚠️ Ha de tenir 5 caràcters com a mínim.",
+        "nickMaxError": "⚠️ Ha de tenir 25 caràcters com a màxim.",
+        "emailError": "El correu electrònic ha de ser vàlid",
+        "deleteAccount": "Eliminar compte",
+        "deleteUser": "Eliminar usuari",
+        "deleteWarning": "Acció irreversible, introdueix",
+        "deleteWarningEnd": "per eliminar el teu compte.",
+        "verification": "Verificació",
+        "verificationPlaceholder": "Introdueix aquí la teva adreça",
+        "deleteDescription": "Un cop realitzada aquesta acció perdràs tota la teva informació com cursos realitzats o privilegis.",
+        "delete": "Eliminar",
+        "validationError": "El valor de validació ha de coincidir amb l'adreça.",
+        "yourWallet": "La teva cartera",
+        "walletSettings": "Configuració de la teva cartera",
+        "emailNotVerified": "Correu no verificat",
+        "clickToVerify": "Fes clic a baix per verificar el teu correu.",
+        "sending": "Enviant...",
+        "receiveValidationEmail": "Rebre un correu de validació",
+        "verificationEmailSent": "Correu de verificació enviat",
+        "checkInbox": "Si us plau, revisa la teva safata d'entrada/spam.",
+        "requestRole": "Sol·licitar rol",
+        "requestRoleTitle": "Sol·licitar Rol",
+        "roleRequestDescription": "Seràs comunicat per correu una vegada confirmat i configurat. Gràcies!",
+        "privilege": "Privilegi",
+        "selectRole": "Selecciona el rol",
+        "noPrivileges": "Sense privilegis",
+        "teacher": "Professor",
+        "admin": "Admin",
+        "requestRoleDescription": "Sol·licita la configuració del rol acordat amb la companyia.",
+        "infoHere": "Informació aquí",
+        "requesting": "Sol·licitant",
+        "request": "Sol·licitar",
+        "clickToLoadImage": "Clica per carregar una imatge"
+    },
+    "apps": {
+        "profile": {
+            "title": "Desenvolupador",
+            "description": "Informació sobre el desenvolupador i la seva experiència."
+        },
+        "agora": {
+            "title": "Blog",
+            "description": "Blog i formació per a desenvolupadors. Mostra SaaS."
+        },
+        "admin": {
+            "title": "Tauler d'Admin",
+            "description": "Panell d'administració."
+        }
+    }
+}

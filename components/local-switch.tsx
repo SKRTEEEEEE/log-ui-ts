@@ -14,7 +14,7 @@ export default function LocalSwitcher() {
   const router = useRouter();
   const localActive = useLocale();
   const pathname = usePathname();
-  const t = useTranslations("root");
+  const t = useTranslations("common");
 
   const onSelectChange = (nextLocale: string) => {
     startTransition(() => {

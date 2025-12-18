@@ -18,16 +18,17 @@ import {
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Link } from "@/lib/i18n/routing";
+import { useTranslations } from "next-intl";
 
 export function AppsMenu() {
   const isSmallViewport = useMediaQuery("(max-width: 960px)");
   const [currentAppId, setCurrentAppId] = useState<string | null>(null);
+  const t = useTranslations();
 
   useEffect(() => {
     setCurrentAppId(getCurrentApp());
   }, []);
 
-  const currentApp = APPS_CONFIG.find((app) => app.id === currentAppId);
   const otherApps = APPS_CONFIG.filter((app) => app.id !== currentAppId);
 
   return (
@@ -51,10 +52,10 @@ export function AppsMenu() {
                     )}
                   >
                     <div className="mt-4 mb-2 text-lg font-medium">
-                      {currentApp?.title || "Home"}
+                      {currentAppId ? t(`apps.${currentAppId}.title`) : "Home"}
                     </div>
                     <p className="text-muted-foreground text-sm leading-tight">
-                      {currentApp?.description || "Página principal"}
+                      {currentAppId ? t(`apps.${currentAppId}.description`) : "Página principal"}
                     </p>
                   </Link>
                 </NavigationMenuLink>
@@ -65,10 +66,10 @@ export function AppsMenu() {
                 <ListItem
                   key={app.id}
                   href={getAppUrl(app.id)}
-                  title={app.title}
+                  title={t(`apps.${app.id}.title`)}
                   isActive={false}
                 >
-                  {app.description}
+                  {t(`apps.${app.id}.description`)}
                 </ListItem>
               ))}
             </ul>

@@ -1,0 +1,73 @@
+{
+  "common": {
+    "previous": "Zurück",
+    "next": "Weiter",
+    "lang": "Sprache"
+  },
+  "userProfile": {
+    "config": "Einstellungen",
+    "configUser": "Benutzereinstellungen",
+    "editProfile": "Profil bearbeiten",
+    "editInfo": "Bearbeite deine Benutzerinformationen",
+    "nick": "Spitzname",
+    "nickPlaceholder": "👾 5 bis 25 Zeichen",
+    "nickDescription": "Dies wird dein öffentlicher Name sein.",
+    "email": "E-Mail",
+    "emailPlaceholder": "beispiel@email.com",
+    "emailDescription": "E-Mail zur Verifizierung.",
+    "profileImage": "Profilbild",
+    "modifyImage": "Bild ändern",
+    "imageDescription": "Max. Größe: 4MB. Formate: PNG, JPG, GIF, WEBP",
+    "close": "Schließen",
+    "uploadingImage": "Bild wird hochgeladen...",
+    "loginToUpdate": "Melde dich an, um zu aktualisieren",
+    "updateProfile": "Profil aktualisieren",
+    "nickMinError": "⚠️ Muss mindestens 5 Zeichen haben.",
+    "nickMaxError": "⚠️ Darf maximal 25 Zeichen haben.",
+    "emailError": "E-Mail muss gültig sein",
+    "deleteAccount": "Konto löschen",
+    "deleteUser": "Benutzer löschen",
+    "deleteWarning": "Unwiderrufliche Aktion, gib",
+    "deleteWarningEnd": "ein, um dein Konto zu löschen.",
+    "verification": "Verifizierung",
+    "verificationPlaceholder": "Gib hier deine Adresse ein",
+    "deleteDescription": "Sobald diese Aktion durchgeführt wurde, verlierst du alle deine Informationen wie abgeschlossene Kurse oder Privilegien.",
+    "delete": "Löschen",
+    "validationError": "Der Bestätigungswert muss mit der Adresse übereinstimmen.",
+    "yourWallet": "Deine Wallet",
+    "walletSettings": "Deine Wallet-Einstellungen",
+    "emailNotVerified": "E-Mail nicht verifiziert",
+    "clickToVerify": "Klicke unten, um deine E-Mail zu verifizieren.",
+    "sending": "Wird gesendet...",
+    "receiveValidationEmail": "Bestätigungs-E-Mail erhalten",
+    "verificationEmailSent": "Bestätigungs-E-Mail gesendet",
+    "checkInbox": "Bitte überprüfe deinen Posteingang/Spam-Ordner.",
+    "requestRole": "Rolle anfordern",
+    "requestRoleTitle": "Rolle anfordern",
+    "roleRequestDescription": "Du wirst per E-Mail benachrichtigt, sobald bestätigt und konfiguriert. Danke!",
+    "privilege": "Privileg",
+    "selectRole": "Rolle auswählen",
+    "noPrivileges": "Keine Privilegien",
+    "teacher": "Lehrer",
+    "admin": "Admin",
+    "requestRoleDescription": "Beantrage die Konfiguration der mit dem Unternehmen vereinbarten Rolle.",
+    "infoHere": "Informationen hier",
+    "requesting": "Wird angefordert",
+    "request": "Anfordern",
+    "clickToLoadImage": "Klicke, um ein Bild zu laden"
+  },
+  "apps": {
+    "profile": {
+      "title": "Entwickler",
+      "description": "Informationen über den Entwickler und seine Erfahrung."
+    },
+    "agora": {
+      "title": "Blog",
+      "description": "Blog und Schulung für Entwickler. Beispiel-SaaS."
+    },
+    "admin": {
+      "title": "Admin-Dashboard",
+      "description": "Verwaltungspanel."
+    }
+  }
+}

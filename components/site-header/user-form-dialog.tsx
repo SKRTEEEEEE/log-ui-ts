@@ -19,21 +19,22 @@ import DeleteUserButton from "./delete-user-button";
 import Image from "next/image";
 import { VerificacionEmailAlert } from "./verificacion-email-alert";
 import SolicitudRoleButton from "./solicitud-role";
+import { useTranslations } from "next-intl";
 
-const FormButtonLabelDef = () => {
+const FormButtonLabelDef = ({ t }: { t: any }) => {
   return (
       <>
           <UserCog width={20} height={20} />
-          <span className="inline-block sm:hidden px-2">Configuración</span>
-          <p className="hidden sm:sr-only">Configuración usuario</p>
+          <span className="inline-block sm:hidden px-2">{t('config')}</span>
+          <p className="hidden sm:sr-only">{t('configUser')}</p>
       </>
   );
 };
 
-const userSchema = z.object({
-    nick: z.string().min(5, { message: "⚠️ Debe tener 5 caracteres como mínimo." }).max(25, { message: "⚠️ Debe tener 25 caracteres como máximo." }).optional(),
+const getUserSchema = (t: any) => z.object({
+    nick: z.string().min(5, { message: t('nickMinError') }).max(25, { message: t('nickMaxError') }).optional(),
     img: z.string().nullable().optional(),
-    email: z.string().email({ message: "El email debe ser válido" }).nullable().optional(),
+    email: z.string().email({ message: t('emailError') }).nullable().optional(),
   })
 
 type User = {
@@ -60,6 +61,7 @@ export default function UserFormDialog({
   buttonLabelClass?:string,
   onUserUpdate?: () => void
 }) {
+  const t = useTranslations('userProfile')
   const account = useActiveAccount()
   const [previewImage, setPreviewImage] = useState<string | null>(user ? user.img : null)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
@@ -67,6 +69,7 @@ export default function UserFormDialog({
   const [isOpen, setIsOpen] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
 
+  const userSchema = getUserSchema(t)
   const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema),
     defaultValues: {
@@ -158,16 +161,16 @@ export default function UserFormDialog({
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button className={buttonLabelClass} variant={buttonLabelVariant}>
-          {formButtonLabel||<FormButtonLabelDef/>} 
+          {formButtonLabel||<FormButtonLabelDef t={t} />} 
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[450px]">
         <DialogHeader>
           <DialogTitle>
-            Editar perfil
+            {t('editProfile')}
           </DialogTitle>
           <DialogDescription className="text-xs">
-            Editar tu información como usuario
+            {t('editInfo')}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -177,11 +180,11 @@ export default function UserFormDialog({
               name="nick"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nick</FormLabel>
+                  <FormLabel>{t('nick')}</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="👾 De 5 a 25 caracteres" disabled={isFormDisabled} />
+                    <Input {...field} placeholder={t('nickPlaceholder')} disabled={isFormDisabled} />
                   </FormControl>
-                  <FormDescription>Este será tu nombre público.</FormDescription>
+                  <FormDescription>{t('nickDescription')}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -191,18 +194,18 @@ export default function UserFormDialog({
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>{t('email')}</FormLabel>
                   <FormControl>
-                    <Input {...field} value={field.value ?? ''}  placeholder="ejemplo@correo.com" disabled={isFormDisabled} />
+                    <Input {...field} value={field.value ?? ''}  placeholder={t('emailPlaceholder')} disabled={isFormDisabled} />
                   </FormControl>
-                  <FormDescription>Email para verificación.</FormDescription>
+                  <FormDescription>{t('emailDescription')}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
             <div className="grid w-full items-center gap-1.5">
-              <Label htmlFor="picture">Imagen Perfil</Label>
+              <Label htmlFor="picture">{t('profileImage')}</Label>
               {previewImage && (
                 <div className="flex items-center justify-between sm:w-[400px]">
                   <Image 
@@ -223,7 +226,7 @@ export default function UserFormDialog({
                     }} 
                     disabled={isFormDisabled}
                   >
-                    Modificar imagen
+                    {t('modifyImage')}
                   </Button>
                 </div>
               )}
@@ -233,13 +236,13 @@ export default function UserFormDialog({
                   id="picture" 
                   type="file" 
                   accept="image/*"
-                  placeholder="Click para cargar una imagen" 
+                  placeholder={t('clickToLoadImage')} 
                   onChange={handleFileChange} 
                   disabled={isFormDisabled} 
                 />
               )}
               <FormDescription className="text-xs">
-                Tamaño máximo: 4MB. Formatos: PNG, JPG, GIF, WEBP
+                {t('imageDescription')}
               </FormDescription>
             </div>
             
@@ -248,7 +251,7 @@ export default function UserFormDialog({
                 <div className="flex justify-end">
                   <DialogClose asChild>
                     <Button type="button" variant="secondary">
-                      Cerrar
+                      {t('close')}
                     </Button>
                   </DialogClose>
                 </div>
@@ -258,7 +261,7 @@ export default function UserFormDialog({
                   disabled={isFormDisabled || !account || isUploading}
                   className="w-full"
                 >
-                  {isUploading ? "Subiendo imagen..." : isFormDisabled ? "Inicia sesión para actualizar" : "Actualizar Perfil"}
+                  {isUploading ? t('uploadingImage') : isFormDisabled ? t('loginToUpdate') : t('updateProfile')}
                 </Button>
               </div>
             </DialogFooter>

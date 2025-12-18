@@ -4,8 +4,6 @@
 
 export interface AppConfig {
   id: string;
-  title: string;
-  description: string;
   url: {
     dev: string;
     prod: string;
@@ -16,8 +14,6 @@ export interface AppConfig {
 export const APPS_CONFIG: AppConfig[] = [
   {
     id: "profile",
-    title: "Desarrollador",
-    description: "Información sobre el desarrollador y su experiencia.",
     url: {
       dev: "http://localhost:3000",
       prod: "https://dev.desarrollador.tech",
@@ -25,8 +21,6 @@ export const APPS_CONFIG: AppConfig[] = [
   },
   {
     id: "agora",
-    title: "Blog",
-    description: "Blog y formación para desarrolladores. SaaS de muestra.",
     url: {
       dev: "http://localhost:3002",
       prod: "https://agora.desarrollador.tech",
@@ -34,8 +28,6 @@ export const APPS_CONFIG: AppConfig[] = [
   },
   {
     id: "admin",
-    title: "Dashboard Admin",
-    description: "Panel de administración.",
     url: {
       dev: "http://localhost:3004",
       prod: "https://profile-skrt.vercel.app/es/admin",
@@ -59,7 +51,7 @@ export function getCurrentApp(): string | null {
     if (baseUrl.includes("3002") || baseUrl.includes("agora.desarrollador")) {
       return "agora";
     }
-    if (baseUrl.includes("3003") || baseUrl.includes("admin")) {
+    if (baseUrl.includes("3004") || baseUrl.includes("admin")) {
       return "admin";
     }
     return null;
@@ -75,7 +67,7 @@ export function getCurrentApp(): string | null {
   if (port === "3002" || hostname.includes("agora.desarrollador")) {
     return "agora";
   }
-  if (port === "3003" || hostname.includes("admin")) {
+  if (port === "3004" || hostname.includes("admin")) {
     return "admin";
   }
 

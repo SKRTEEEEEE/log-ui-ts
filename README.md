@@ -1,5 +1,6 @@
 # Log Ui Ts
-Submodule compartido para unificar componentes, autenticación y core entre micro-frontends Next.js
+
+> *Submodule compartido para unificar componentes, autenticación y core entre micro-frontend's Next.js*
 
 ## ⚙️ Requisitos
 App Router (Next.js 15+), Node 18+, Tailwind CSS 4 con shadcn/ui configurado 🚀
@@ -53,6 +54,11 @@ git submodule update --init --recursive
 ```css
 @import "@log-ui/lib/globals.css";
 ```
+### 🪛 Config
+- [`<app>/src/lib/log-ui-data.tsx`](#-appsrcliblog-ui-datatsx): Configuración especifica del repositorio
+- `<app>/src/data/*/log-ui.json`: Config i18n especifica del repositorio
+- `./i18n/*/common.json`: Configuración i18n para 'log-ui'
+- `./lib/config/apps-config.ts`: Configuración endpoints que utilizan 'log-ui'
 ### 🏗️ Core Architecture
 - `@log-ui/core`: Domain entities, repos base, flows compartidos (úsalo para tipos y lógica)
 - `@/components/ui`: UI components del host (log-ui importa desde aquí)
@@ -63,3 +69,18 @@ git submodule update --init --recursive
 ```
 ## 🔧 Uso
 Importa acciones con `@log-ui/actions/*`, componentes con `@log-ui/components/*`, y core con `@log-ui/core/*`. Los componentes de navegación aceptan `SiteNavConfig<TPath>` genérico para tus rutas específicas 🎯
+### 🔶 `<app>/src/lib/log-ui-data.tsx`
+#### Nav - 'fast links'
+```ts
+const siteConfig: {
+    name: string;
+    description: string;
+    icon: JSX.Element;
+    //endpoints que se muestran
+    // i18n -> nav.{localeRoute.id}
+    paths: {
+        id: string;
+        path: string;
+    }[];
+}
+```
