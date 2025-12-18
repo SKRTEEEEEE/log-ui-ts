@@ -3,7 +3,7 @@
 import { generatePayload, getUserData, isLoggedIn, login } from "@log-ui/actions/auth"
 import { ConnectButton } from "thirdweb/react"
 import { createWallet, inAppWallet } from "thirdweb/wallets";
-import { Button } from "@/components/ui/button";
+import {  buttonVariants } from "@/components/ui/button";
 import { Wallet } from "lucide-react";
 import { ThirdwebClientConfig } from "@log-ui/core/infrastructure/connectors/thirdweb-auth";
 import { useEffect, useState } from "react";
@@ -131,7 +131,7 @@ export const CustomConnectButton = ({
         {showUserFormButton && isLogged && user && (
           <UserFormDialog 
             user={user}
-            buttonLabelVariant="ghost"
+            buttonLabelVariant="outline"
             buttonLabelClass="w-10 px-0"
             onUserUpdate={loadUserData}
           />
@@ -163,11 +163,11 @@ export const CustomConnectButton = ({
         }}
         detailsButton={{
           render: () => (
-            <Button variant={"outline"} className="w-full px-2">
+            <div className={cn(buttonVariants({ variant: "outline" }),"w-full px-2")}>
               <Wallet width={20} height={20} />
               <span className="inline-block sm:hidden px-2">{walletTranslations.yourWallet}</span>
               <p className="hidden sm:sr-only">{walletTranslations.walletSettings}</p>
-            </Button>
+            </div>
           ),
         }}
         auth={{
