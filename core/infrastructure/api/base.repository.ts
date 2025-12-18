@@ -119,13 +119,4 @@ export abstract class ApiBaseRepository {
     }
 }
 
-export class ApiResponseError extends Error {
-    constructor(action: string, source: { name: string }, options?: { module?: string; optionalMessage?: string }) {
-      super(
-        `[${source.name}] Error in action "${action}"${options?.module ? ` for module "${options.module}"` : ''}${
-          options?.optionalMessage ? `: ${options.optionalMessage}` : ''
-        }`
-      );
-      this.name = 'ApiResponseError';
-    }
-  }
+// Removed ApiResponseError - now using createDomainError from profile-domain

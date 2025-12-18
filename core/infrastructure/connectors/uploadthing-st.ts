@@ -1,6 +1,6 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError, UTApi } from "uploadthing/server";
-import { authRepository } from "../services/thirdweb-auth";
+import { authRepository } from "@log-ui/core/presentation/services/auth.service";
 import { AuthRepository } from "@log-ui/core/application/interfaces/services/auth";
 
 export abstract class UploadThingAdapter {
@@ -38,9 +38,6 @@ class ConcreteUploadThingAdapter extends UploadThingAdapter {
         })
         .onUploadComplete(async ({ metadata, file }) => {
           // This code RUNS ON YOUR SERVER after upload
-          console.log("Upload complete for userId:", metadata.userId);
-          console.log("file url: ", file.url);
-
           // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
           return { uploadedBy: metadata.userId };
         }),

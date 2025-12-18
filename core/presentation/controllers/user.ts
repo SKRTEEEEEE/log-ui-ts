@@ -1,39 +1,12 @@
 "use server";
 
-import { apiUpdateUserUC, apiDeleteUserUC, apiUpdateUserSolicitudUC, apiResendVerificationEmailUC, apiReadUserByIdUC } from "@log-ui/core/application/usecases/entities/user";
-import { getCookiesUC } from "@log-ui/core/application/usecases/services/auth";
+import { apiUpdateUserUC, apiDeleteUserUC, apiUpdateUserSolicitudUC, apiResendVerificationEmailUC, getCurrentUserUC } from "@log-ui/core/application/usecases/entities/user";
 import { revalidatePath } from "next/cache";
 import { LoginPayload } from "thirdweb/auth";
 import { RoleType, createDomainError, ErrorCodes } from "@skrteeeeee/profile-domain";
 
 export const userInCookiesUC = async () => {
-    try {
-        const cookies = await getCookiesUC()
-        if (!cookies || !cookies.ctx) return null
-        
-        // Obtener datos completos del usuario desde el backend
-        const userData = await apiReadUserByIdUC(cookies.ctx.id)
-        if (!userData || !userData.success) return null
-        
-        return {
-            id: userData.data.id,
-            nick: userData.data.nick,
-            img: userData.data.img,
-            email: userData.data.email,
-            address: userData.data.address,
-            role: userData.data.role,
-            isVerified: userData.data.isVerified,
-            solicitud: userData.data.solicitud
-        }
-    } catch (error) {
-        throw createDomainError(
-            ErrorCodes.DATABASE_FIND,
-            userInCookiesUC,
-            "userInCookiesUC",
-            "tryAgainOrContact",
-            { optionalMessage: error instanceof Error ? error.message : String(error) }
-        )
-    }
+    return await getCurrentUserUC();
 }
 
 export async function updateUser(

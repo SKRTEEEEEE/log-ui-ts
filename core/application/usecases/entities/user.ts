@@ -1,26 +1,84 @@
 import { VerifyLoginPayloadParams } from "thirdweb/auth";
 import { ApiUserRepository, UserUpdateData } from "@log-ui/core/infrastructure/api/user.repository";
-import { RoleType } from "@skrteeeeee/profile-domain";
+import { RoleType, createDomainError, ErrorCodes } from "@skrteeeeee/profile-domain";
+import { nextCookieAdapter } from "@log-ui/core/presentation/adapters/next-cookie.adapter";
+import { setJwtUC, getCookiesUC } from "../services/auth";
 
 const apiUserRepository = new ApiUserRepository(process.env.NEXT_PUBLIC_BACKEND_URL);
 
+// Helper to get JWT token string from cookies
+const getJwtToken = async (): Promise<string | undefined> => {
+    const jwtCookie = await nextCookieAdapter.get("jwt");
+    return jwtCookie || undefined;
+}
+
+/**
+ * Obtiene los datos completos del usuario actual desde cookies + backend
+ * LÓGICA DE NEGOCIO: Orquestación de obtener cookies → buscar user → mapear
+ */
+export const getCurrentUserUC = async () => {
+    try {
+        const cookies = await getCookiesUC();
+        if (!cookies || !cookies.ctx) return null;
+        
+        // Obtener datos completos del usuario desde el backend
+        const userData = await apiReadUserByIdUC(cookies.ctx.id);
+        if (!userData || !userData.success) return null;
+        
+        return {
+            id: userData.data.id,
+            nick: userData.data.nick,
+            img: userData.data.img,
+            email: userData.data.email,
+            address: userData.data.address,
+            role: userData.data.role,
+            isVerified: userData.data.isVerified,
+            solicitud: userData.data.solicitud
+        };
+    } catch (error) {
+        throw createDomainError(
+            ErrorCodes.DATABASE_FIND,
+            getCurrentUserUC,
+            "getCurrentUserUC",
+            "tryAgainOrContact",
+            { optionalMessage: error instanceof Error ? error.message : String(error) }
+        );
+    }
+}
+
 export const apiReadUserByIdUC = async (id: string) => {
-    return await apiUserRepository.readById(id)
+    const jwt = await getJwtToken();
+    return await apiUserRepository.readById(id, jwt)
 }
 
 export const apiReadUsersUC = async () => {
-    return await apiUserRepository.readAll()
+    const jwt = await getJwtToken();
+    return await apiUserRepository.readAll(jwt)
 }
 
 export const apiLoginUserUC = async (data:{payload: VerifyLoginPayloadParams}) => {
-    return await apiUserRepository.login(data)
+    const jwt = await getJwtToken();
+    return await apiUserRepository.login(data, jwt)
 }
 
 export const apiUpdateUserUC = async (data: {
     payload: VerifyLoginPayloadParams;
     formData: UserUpdateData;
 }) => {
-    return await apiUserRepository.update(data)
+    const jwt = await getJwtToken();
+    const res = await apiUserRepository.update(data, jwt);
+    
+    // LÓGICA DE NEGOCIO: Actualizar JWT con nuevos datos del usuario
+    if (res && res.success && res.data) {
+        await setJwtUC(data.payload, {
+            nick: res.data.nick,
+            id: res.data.id,
+            role: res.data.role,
+            img: res.data.img || undefined,
+        });
+    }
+    
+    return res;
 }
 
 export const apiDeleteUserUC = async (data: {
@@ -28,19 +86,22 @@ export const apiDeleteUserUC = async (data: {
     id: string;
     address: string;
 }) => {
-    return await apiUserRepository.deleteById(data)
+    const jwt = await getJwtToken();
+    return await apiUserRepository.deleteById(data, jwt)
 }
 
 export const apiUpdateUserSolicitudUC = async (data: {
     id: string;
     solicitud: RoleType;
 }) => {
-    return await apiUserRepository.updateSolicitud(data)
+    const jwt = await getJwtToken();
+    return await apiUserRepository.updateSolicitud(data, jwt)
 }
 
 export const apiResendVerificationEmailUC = async (userI: {
     id: string;
     email: string;
 }) => {
-    return await apiUserRepository.resendVerificationEmail(userI)
+    const jwt = await getJwtToken();
+    return await apiUserRepository.resendVerificationEmail(userI, jwt)
 }
