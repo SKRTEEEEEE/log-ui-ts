@@ -7,6 +7,7 @@ import { CustomConnectButton } from "../custom-connect-button";
 import { userInCookiesUC } from "@log-ui/core/presentation/controllers/user";
 import { MobileNav, type SiteNavConfig } from "./mobile-nav";
 import { AppsMenu } from "./apps-menu";
+import LocalSwitcher from "../local-switch";
 
 const siteConfig = {
   name: "Agora",
@@ -116,6 +117,9 @@ export async function SiteHeader() {
           <div className="hidden w-40 md:block">
             <CustomConnectButton connectButtonLabel="Iniciar sesión" initialUser={user} />
           </div>
+
+          {/* Language Switcher */}
+          <LocalSwitcher />
 
           {/* Theme Toggle */}
           <ThemePopover />
