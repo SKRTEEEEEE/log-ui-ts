@@ -1,7 +1,7 @@
 "use client"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
-import { resendVerificationEmail } from "@log-ui/actions/user";
+import { resendVerificationEmail } from "@log-ui/core/presentation/controllers/user";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";

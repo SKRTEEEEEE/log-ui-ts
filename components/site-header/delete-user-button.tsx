@@ -1,9 +1,9 @@
 "use client";
 
-import { deleteUser } from "@log-ui/actions/user";
+import { deleteUser } from "@log-ui/core/presentation/controllers/user";
 import { useActiveAccount, useActiveWallet } from "thirdweb/react";
 import { Button } from "@/components/ui/button";
-import { generatePayload } from "@log-ui/actions/auth";
+import { generatePayload } from "@log-ui/core/presentation/controllers/auth";
 import { signLoginPayload } from "thirdweb/auth";
 import { UserX } from "lucide-react";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";

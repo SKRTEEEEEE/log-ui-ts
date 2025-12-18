@@ -1,6 +1,6 @@
 "use client"
 
-import { generatePayload, getUserData, isLoggedIn, login } from "@log-ui/actions/auth"
+import { generatePayload, getUserData, isLoggedIn, login } from "@log-ui/core/presentation/controllers/auth"
 import { ConnectButton } from "thirdweb/react"
 import { createWallet, inAppWallet } from "thirdweb/wallets";
 import {  buttonVariants } from "@/components/ui/button";

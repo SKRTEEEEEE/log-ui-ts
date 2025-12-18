@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Link from "next/link"
-import { updateUserSolicitud } from "@log-ui/actions/user"
+import { updateUserSolicitud } from "@log-ui/core/presentation/controllers/user"
 import { useState } from "react"
 import { RoleType } from "@skrteeeeee/profile-domain";
 import { useTranslations } from "next-intl";

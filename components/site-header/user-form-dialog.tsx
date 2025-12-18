@@ -1,10 +1,10 @@
 "use client"
-import { updateUser } from "@log-ui/actions/user";
-import { updateImg, uploadImg } from "@log-ui/actions/img";
+import { updateUser } from "@log-ui/core/presentation/controllers/user";
+import { updateImg, uploadImg } from "@log-ui/core/presentation/controllers/img";
 import { Button } from "@/components/ui/button";
 import { useActiveAccount } from "thirdweb/react";
 import { signLoginPayload } from "thirdweb/auth";
-import { generatePayload } from "@log-ui/actions/auth";
+import { generatePayload } from "@log-ui/core/presentation/controllers/auth";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

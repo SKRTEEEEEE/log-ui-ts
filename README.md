@@ -68,7 +68,7 @@ git submodule update --init --recursive
 { "installCommand": "git submodule update --init --recursive && npm install" }
 ```
 ## 🔧 Uso
-Importa acciones con `@log-ui/actions/*`, componentes con `@log-ui/components/*`, y core con `@log-ui/core/*`. Los componentes de navegación aceptan `SiteNavConfig<TPath>` genérico para tus rutas específicas 🎯
+Importa controllers con `@log-ui/core/presentation/controllers/*`, componentes con `@log-ui/components/*`, y core con `@log-ui/core/*`. Los componentes de navegación aceptan `SiteNavConfig<TPath>` genérico para tus rutas específicas 🎯
 ### 🔶 `<app>/src/lib/log-ui-data.tsx`
 #### Nav - 'fast links'
 ```ts
