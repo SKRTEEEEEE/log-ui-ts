@@ -1,42 +1,45 @@
 import { ImgRepository } from "@log-ui/core/application/interfaces/services/img";
 import { UploadThingAdapter } from "../connectors/uploadthing-st";
-
-class StorageActionError extends Error {
-  constructor(action: string, repositoryName: string, details?: Record<string, unknown>) {
-    super(`Storage action '${action}' failed in ${repositoryName}. Details: ${JSON.stringify(details)}`);
-    this.name = "StorageActionError";
-  }
-}
-
-class InputParseError extends Error {
-  constructor(contextName: string, message: string) {
-    super(`Input parse error in ${contextName}: ${message}`);
-    this.name = "InputParseError";
-  }
-}
+import { createDomainError, ErrorCodes } from "@skrteeeeee/profile-domain";
 
 class UploadThingImgRepository extends UploadThingAdapter implements ImgRepository {
   async uploadImage(file: File): Promise<string> {
     if (!(file instanceof File)) {
-      throw new InputParseError("UploadThingImgRepository", "El elemento no es un archivo válido");
+      throw createDomainError(
+        ErrorCodes.INPUT_PARSE,
+        UploadThingImgRepository,
+        "uploadImage",
+        {
+          es: "Por favor, selecciona un archivo válido",
+          en: "Please select a valid file",
+          ca: "Si us plau, selecciona un arxiu vàlid",
+          de: "Bitte wähle eine gültige Datei aus"
+        },
+        { optionalMessage: "The element is not a valid file" }
+      );
     }
 
     const results = await this.utapi.uploadFiles([file]);
     const firstResult = results[0];
     
     if (!firstResult.data) {
-      throw new StorageActionError("upload", "UploadThingImgRepository", { 
-        type: "image", 
-        optionalMessage: "No result: " + JSON.stringify(firstResult) 
-      });
+      throw createDomainError(
+        ErrorCodes.SHARED_ACTION,
+        UploadThingImgRepository,
+        "uploadImage",
+        "tryAgainOrContact",
+        { 
+          entity: "image",
+          optionalMessage: "No result from uploadFiles: " + JSON.stringify(firstResult)
+        }
+      );
     }
     
     return firstResult.data.url;
   }
 
   async deleteImage(img: string): Promise<boolean> {
-    const { success, deletedCount } = await this.utapi.deleteFiles(img);
-    console.log(`Eliminada: ${success} \n ${deletedCount} Imagen ${img}`);
+    const { success } = await this.utapi.deleteFiles(img);
     return success;
   }
 

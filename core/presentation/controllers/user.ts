@@ -4,7 +4,7 @@ import { apiUpdateUserUC, apiDeleteUserUC, apiUpdateUserSolicitudUC, apiResendVe
 import { getCookiesUC } from "@log-ui/core/application/usecases/services/auth";
 import { revalidatePath } from "next/cache";
 import { LoginPayload } from "thirdweb/auth";
-import { RoleType } from "@skrteeeeee/profile-domain";
+import { RoleType, createDomainError, ErrorCodes } from "@skrteeeeee/profile-domain";
 
 export const userInCookiesUC = async () => {
     try {
@@ -26,8 +26,13 @@ export const userInCookiesUC = async () => {
             solicitud: userData.data.solicitud
         }
     } catch (error) {
-        console.error("Error fetching user from cookies:", error)
-        return null
+        throw createDomainError(
+            ErrorCodes.DATABASE_FIND,
+            userInCookiesUC,
+            "userInCookiesUC",
+            "tryAgainOrContact",
+            { optionalMessage: error instanceof Error ? error.message : String(error) }
+        )
     }
 }
 
@@ -62,7 +67,16 @@ export async function deleteUser(
 ) {
   const res = await apiDeleteUserUC({ payload, id, address });
   if (!res.success) {
-    throw new Error(res.message || "Error deleting user");
+    throw createDomainError(
+      ErrorCodes.DATABASE_ACTION,
+      deleteUser,
+      "deleteUser",
+      "tryAgainOrContact",
+      { 
+        entity: "user",
+        optionalMessage: res.message || "Error deleting user"
+      }
+    );
   }
   revalidatePath("/");
 }

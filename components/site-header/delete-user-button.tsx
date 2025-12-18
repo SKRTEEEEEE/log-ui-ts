@@ -38,7 +38,6 @@ export default function DeleteUserButton({ id, address }: { id: string; address:
 
     const onSubmit = async () => {
         if (!account) {
-            console.error("Please connect your wallet");
             return;
         }
         try {
@@ -49,7 +48,8 @@ export default function DeleteUserButton({ id, address }: { id: string; address:
                 wallet.disconnect();
             }
         } catch (error) {
-            console.error("Error at delete user: " + error);
+            // Error is already handled by the controller with DomainError
+            throw error;
         }
     };
 

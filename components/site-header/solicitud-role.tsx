@@ -33,8 +33,9 @@ export default function SolicitudRoleButton({id}:{id:string}){
          try {
           setLoading(true)
           await updateUserSolicitud(updatedData as { id: string; solicitud: RoleType })
-         } catch {
-          console.error("Error at update solicitud rol")
+         } catch (error) {
+          // Error is already handled by the controller with DomainError
+          throw error;
          } finally {
           setLoading(false)
          }

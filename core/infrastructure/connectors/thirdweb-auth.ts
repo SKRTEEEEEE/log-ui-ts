@@ -1,6 +1,7 @@
 import { createAuth } from "thirdweb/auth";
 import { privateKeyToAccount } from "thirdweb/wallets";
 import { createThirdwebClient, ThirdwebClient } from "thirdweb";
+import { createDomainError, ErrorCodes } from "@skrteeeeee/profile-domain";
 
 
 export class ThirdwebClientConfig {
@@ -8,7 +9,16 @@ export class ThirdwebClientConfig {
     private _client: ThirdwebClient | null = null;
     
     private initialize() {
-        if(!this.clientId) throw new Error("Client Id not found")
+        if(!this.clientId) throw createDomainError(
+            ErrorCodes.SET_ENV,
+            ThirdwebClientConfig,
+            "initialize",
+            "tryAgainOrContact",
+            { 
+                variable: "NEXT_PUBLIC_THIRDWEB_CLIENT_ID",
+                optionalMessage: "Thirdweb Client ID not found in environment variables"
+            }
+        )
         return createThirdwebClient({clientId: this.clientId})
     }
     
@@ -26,16 +36,42 @@ export abstract class ThirdwebAuthAdapter extends ThirdwebClientConfig{
     private domain = process.env.NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN 
     
     private initializeAuth(): void {
-        if (!this.privateKey) throw new Error("Missing THIRDWEB_ADMIN_PRIVATE_KEY in environment variables.");
-        if(!this.domain) throw new Error("Missing NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN in env variables.")
+        if (!this.privateKey) throw createDomainError(
+            ErrorCodes.SET_ENV,
+            ThirdwebAuthAdapter,
+            "initializeAuth",
+            "tryAgainOrContact",
+            { 
+                variable: "THIRDWEB_ADMIN_PRIVATE_KEY",
+                optionalMessage: "Thirdweb admin private key not found in environment variables"
+            }
+        );
+        if(!this.domain) throw createDomainError(
+            ErrorCodes.SET_ENV,
+            ThirdwebAuthAdapter,
+            "initializeAuth",
+            "tryAgainOrContact",
+            { 
+                variable: "NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN",
+                optionalMessage: "Thirdweb auth domain not found in environment variables"
+            }
+        );
         try {
             this._thirdwebAuth = createAuth({
                 domain: this.domain ,
                 adminAccount: privateKeyToAccount({ client: this.client, privateKey: this.privateKey }),
             });
         } catch (error) {
-            console.error("Failed to initialize ThirdwebAuth:", error);
-            throw error;
+            throw createDomainError(
+                ErrorCodes.SHARED_ACTION,
+                ThirdwebAuthAdapter,
+                "initializeAuth",
+                "tryAgainOrContact",
+                { 
+                    entity: "ThirdwebAuth",
+                    optionalMessage: error instanceof Error ? error.message : String(error)
+                }
+            );
         }
     }
 
@@ -45,7 +81,16 @@ export abstract class ThirdwebAuthAdapter extends ThirdwebClientConfig{
             this.initializeAuth();
         }
         if (!this._thirdwebAuth) {
-            throw new Error("ThirdwebAuth not initialized. Initialization failed or was not called.");
+            throw createDomainError(
+                ErrorCodes.SHARED_ACTION,
+                ThirdwebAuthAdapter,
+                "thirdwebAuth",
+                "tryAgainOrContact",
+                { 
+                    entity: "ThirdwebAuth",
+                    optionalMessage: "ThirdwebAuth not initialized. Initialization failed or was not called."
+                }
+            );
         }
         return this._thirdwebAuth;
     }

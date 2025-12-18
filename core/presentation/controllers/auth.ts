@@ -3,6 +3,7 @@
 import { apiLoginUserUC, apiReadUserByIdUC } from "@log-ui/core/application/usecases/entities/user"
 import { generatePayloadUC, getCookiesUC, isLoggedInUC, logoutUC, protAdmActUC, setJwtUC } from "@log-ui/core/application/usecases/services/auth"
 import { GenerateLoginPayloadParams, LoginPayload, VerifyLoginPayloadParams } from "thirdweb/auth"
+import { createDomainError, ErrorCodes } from "@skrteeeeee/profile-domain"
 
 
 export async function isLoggedIn(){
@@ -16,7 +17,12 @@ export async function logout(){
 }
 export async function login(payload: VerifyLoginPayloadParams){
     const res = await apiLoginUserUC({payload})
-    if(!res || !res.success) throw new Error("Login failed")
+    if(!res || !res.success) throw createDomainError(
+        ErrorCodes.UNAUTHORIZED_ACTION,
+        login,
+        "login",
+        "credentials"
+    )
     
     // Guardar JWT con los datos del usuario
     const jwt = await setJwtUC(
@@ -73,7 +79,12 @@ export async function getUserData() {
             solicitud: userData.data.solicitud
         }
     } catch (error) {
-        console.error("Error fetching user data:", error)
-        return null
+        throw createDomainError(
+            ErrorCodes.DATABASE_FIND,
+            getUserData,
+            "getUserData",
+            "tryAgainOrContact",
+            { optionalMessage: error instanceof Error ? error.message : String(error) }
+        )
     }
 }

@@ -54,7 +54,8 @@ export const VerificacionEmailAlert = ({ user }: { user: User }) => {
                     setLastSent(currentTime);
                     localStorage.setItem('lastSent', currentTime.toString());
                 } catch (error) {
-                    console.error("Error al enviar el correo de verificación:", error);
+                    // Error is already handled by the controller with DomainError
+                    throw error;
                 } finally {
                     setLoading(false);
                 }

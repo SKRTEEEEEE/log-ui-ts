@@ -116,7 +116,7 @@ export default function UserFormDialog({
       form.setValue("img", imageUrl)
       return imageUrl;
     } catch (error) {
-      console.error("Error al subir la imagen:", error);
+      // Error is already handled by the controller with DomainError
       throw error;
     } finally {
       setIsUploading(false);
@@ -125,7 +125,6 @@ export default function UserFormDialog({
 
   async function onSubmit(formData: z.infer<typeof userSchema>) {
     if (!account || !user) {
-      console.error("Please connect your wallet or log in")
       return
     }
 
@@ -151,7 +150,8 @@ export default function UserFormDialog({
         onUserUpdate()
       }
     } catch (error) {
-      console.error("Error al actualizar usuario:", error);
+      // Error is already handled by the controller with DomainError
+      throw error;
     }
   }
 
