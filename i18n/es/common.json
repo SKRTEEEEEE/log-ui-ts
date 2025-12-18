@@ -69,5 +69,10 @@
             "title": "Dashboard Admin",
             "description": "Panel de administración."
         }
+    },
+    "auth": {
+        "login": "Iniciar sesión",
+        "logout": "Cerrar sesión",
+        "signUp": "Registrarse"
     }
 }

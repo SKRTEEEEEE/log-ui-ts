@@ -69,5 +69,10 @@
             "title": "Tauler d'Admin",
             "description": "Panell d'administració."
         }
+    },
+    "auth": {
+        "login": "Iniciar sessió",
+        "logout": "Tancar sessió",
+        "signUp": "Registrar-se"
     }
 }

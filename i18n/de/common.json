@@ -69,5 +69,10 @@
       "title": "Admin-Dashboard",
       "description": "Verwaltungspanel."
     }
+  },
+  "auth": {
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "signUp": "Registrieren"
   }
 }

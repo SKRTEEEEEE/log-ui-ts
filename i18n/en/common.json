@@ -69,5 +69,10 @@
             "title": "Admin Dashboard",
             "description": "Administration panel."
         }
+    },
+    "auth": {
+        "login": "Log in",
+        "logout": "Log out",
+        "signUp": "Sign up"
     }
 }
