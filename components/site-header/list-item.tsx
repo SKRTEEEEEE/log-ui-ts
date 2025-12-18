@@ -7,12 +7,13 @@ interface ListItemProps {
   title: string;
   href: string;
   children: React.ReactNode;
+  isActive?: boolean;
 }
 
 export const ListItem = React.forwardRef<
   React.ElementRef<"a">,
   ListItemProps
->(({ className, title, children, href, ...props }, ref) => {
+>(({ className, title, children, href, isActive, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
@@ -21,6 +22,7 @@ export const ListItem = React.forwardRef<
           href={href}
           className={cn(
             "hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors",
+            isActive && "bg-accent/50 ring-2 ring-primary ring-offset-2",
             className
           )}
           {...props}
