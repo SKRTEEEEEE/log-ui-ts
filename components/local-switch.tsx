@@ -1,7 +1,8 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "@/lib/i18n/routing";
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Languages } from "lucide-react";
@@ -12,14 +13,13 @@ export default function LocalSwitcher() {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const localActive = useLocale();
-  const route = usePathname();
+  const pathname = usePathname();
   const t = useTranslations("root");
-
-  const pathname = route.split("/").slice(2).join("/");
 
   const onSelectChange = (nextLocale: string) => {
     startTransition(() => {
-      router.push(`/${nextLocale}/${pathname}`);
+      // Use window.location for full page reload to preserve cookies/session
+      window.location.href = `/${nextLocale}${pathname}`;
     });
   };
 
