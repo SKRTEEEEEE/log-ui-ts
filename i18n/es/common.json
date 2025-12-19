@@ -74,5 +74,25 @@
         "login": "Iniciar sesión",
         "logout": "Cerrar sesión",
         "signUp": "Registrarse"
+    },
+    "errors": {
+        "generic": {
+            "title": "Ups, ha ocurrido un error",
+            "description": "Inténtalo de nuevo más tarde o contáctanos si persiste"
+        },
+        "predefined": {
+            "tryAgainOrContact": {
+                "title": "Ups, ha ocurrido un error",
+                "description": "Inténtalo de nuevo más tarde o contáctanos si persiste"
+            },
+            "credentials": {
+                "title": "Credenciales inválidas",
+                "description": "Prueba de nuevo o recupera la contraseña si la has olvidado"
+            },
+            "credentials--mock": {
+                "title": "Error de autenticación",
+                "description": "La autenticación simulada falló"
+            }
+        }
     }
 }

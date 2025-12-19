@@ -74,5 +74,25 @@
         "login": "Log in",
         "logout": "Log out",
         "signUp": "Sign up"
+    },
+    "errors": {
+        "generic": {
+            "title": "Oops, an error occurred",
+            "description": "Try again later or contact us if it persists"
+        },
+        "predefined": {
+            "tryAgainOrContact": {
+                "title": "Oops, an error occurred",
+                "description": "Try again later or contact us if it persists"
+            },
+            "credentials": {
+                "title": "Invalid credentials",
+                "description": "Try again or recover your password if you forgot it"
+            },
+            "credentials--mock": {
+                "title": "Authentication error",
+                "description": "Mock authentication failed"
+            }
+        }
     }
 }

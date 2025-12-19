@@ -1,13 +1,9 @@
 "use server";
 
-import { apiUpdateUserUC, apiDeleteUserUC, apiUpdateUserSolicitudUC, apiResendVerificationEmailUC, getCurrentUserUC } from "@log-ui/core/application/usecases/entities/user";
+import { apiUpdateUserUC, apiDeleteUserUC, apiUpdateUserSolicitudUC, apiResendVerificationEmailUC } from "@log-ui/core/application/usecases/entities/user";
 import { revalidatePath } from "next/cache";
 import { LoginPayload } from "thirdweb/auth";
 import { RoleType, createDomainError, ErrorCodes } from "@skrteeeeee/profile-domain";
-
-export const userInCookiesUC = async () => {
-    return await getCurrentUserUC();
-}
 
 export async function updateUser(
   id: string,

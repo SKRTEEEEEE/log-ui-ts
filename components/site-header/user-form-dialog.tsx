@@ -20,6 +20,8 @@ import Image from "next/image";
 import { VerificacionEmailAlert } from "./verificacion-email-alert";
 import SolicitudRoleButton from "./solicitud-role";
 import { useTranslations } from "next-intl";
+import { useErrorToast } from "@log-ui/lib/hooks/use-error-toast";
+import type { DomainError } from "@skrteeeeee/profile-domain";
 
 const FormButtonLabelDef = ({ t }: { t: (key: string) => string }) => {
   return (
@@ -68,6 +70,10 @@ export default function UserFormDialog({
   const [isUser, setIsUser] = useState<boolean>(false)
   const [isOpen, setIsOpen] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
+  const [error, setError] = useState<DomainError | null>(null)
+  
+  // Hook para mostrar toast automáticamente cuando hay errores
+  useErrorToast(error)
 
   const userSchema = getUserSchema(t)
   const form = useForm<z.infer<typeof userSchema>>({
@@ -115,9 +121,10 @@ export default function UserFormDialog({
       }
       form.setValue("img", imageUrl)
       return imageUrl;
-    } catch (error) {
-      // Error is already handled by the controller with DomainError
-      throw error;
+    } catch (err) {
+      // Capturar error y mostrar toast automáticamente via useErrorToast
+      setError(err as DomainError);
+      throw err;
     } finally {
       setIsUploading(false);
     }
@@ -129,6 +136,9 @@ export default function UserFormDialog({
     }
 
     try {
+      // Resetear error previo
+      setError(null);
+      
       // Si hay un archivo seleccionado, subirlo primero
       if (selectedFile !== null) {
         await setImageData()
@@ -149,9 +159,9 @@ export default function UserFormDialog({
       if (onUserUpdate) {
         onUserUpdate()
       }
-    } catch (error) {
-      // Error is already handled by the controller with DomainError
-      throw error;
+    } catch (err) {
+      // Capturar error y mostrar toast automáticamente via useErrorToast
+      setError(err as DomainError);
     }
   }
 

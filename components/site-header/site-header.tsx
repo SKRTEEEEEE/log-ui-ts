@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import ThemePopover from "../theme-popover";
 import { Link } from "@/lib/i18n/routing";
 import { CustomConnectButton } from "../custom-connect-button";
-import { userInCookiesUC } from "@log-ui/core/presentation/controllers/user";
+import { getCurrentUserUC } from "@log-ui/core/application/usecases/entities/user";
 import { MobileNav, type SiteNavConfig } from "./mobile-nav";
 import { AppsMenu } from "./apps-menu";
 import LocalSwitcher from "../local-switch";
@@ -23,7 +23,7 @@ const getThirdwebLocale = (locale: string): "es_ES" | "en_US" | "ja_JP" | "tl_PH
 };
 
 export async function SiteHeader() {
-  const user = await userInCookiesUC();
+  const user = await getCurrentUserUC();
   const locale = await getLocale();
   const t = await getTranslations();
   const tUser = await getTranslations('userProfile');

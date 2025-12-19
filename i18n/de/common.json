@@ -74,5 +74,25 @@
     "login": "Anmelden",
     "logout": "Abmelden",
     "signUp": "Registrieren"
+  },
+  "errors": {
+    "generic": {
+      "title": "Ups, ein Fehler ist aufgetreten",
+      "description": "Versuche es später erneut oder kontaktiere uns, falls das Problem weiterhin besteht"
+    },
+    "predefined": {
+      "tryAgainOrContact": {
+        "title": "Ups, ein Fehler ist aufgetreten",
+        "description": "Versuche es später erneut oder kontaktiere uns, falls das Problem weiterhin besteht"
+      },
+      "credentials": {
+        "title": "Ungültige Anmeldedaten",
+        "description": "Versuche es erneut oder setze dein Passwort zurück, falls du es vergessen hast"
+      },
+      "credentials--mock": {
+        "title": "Authentifizierungsfehler",
+        "description": "Die simulierte Authentifizierung ist fehlgeschlagen"
+      }
+    }
   }
 }

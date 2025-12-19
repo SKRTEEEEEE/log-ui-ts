@@ -74,5 +74,25 @@
         "login": "Iniciar sessió",
         "logout": "Tancar sessió",
         "signUp": "Registrar-se"
+    },
+    "errors": {
+        "generic": {
+            "title": "Ups, ha ocorregut un error",
+            "description": "Torna-ho a provar més tard o contacta'ns si persisteix"
+        },
+        "predefined": {
+            "tryAgainOrContact": {
+                "title": "Ups, ha ocorregut un error",
+                "description": "Torna-ho a provar més tard o contacta'ns si persisteix"
+            },
+            "credentials": {
+                "title": "Credencials invàlides",
+                "description": "Torna-ho a provar o recupera la contrasenya si l'has oblidada"
+            },
+            "credentials--mock": {
+                "title": "Error d'autenticació",
+                "description": "L'autenticació simulada ha fallat"
+            }
+        }
     }
 }

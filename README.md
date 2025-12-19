@@ -62,13 +62,57 @@ git submodule update --init --recursive
 ### 🏗️ Core Architecture
 - `@log-ui/core`: Domain entities, repos base, flows compartidos (úsalo para tipos y lógica)
 - `@/components/ui`: UI components del host (log-ui importa desde aquí)
-- `@log-ui/lib/hooks`: Hooks compartidos como `use-media-query`
+- `@log-ui/lib/hooks`: Hooks compartidos como `use-media-query`, `use-error-toast`
 ### 🎛️ Vercel Deploy
 ```json
 { "installCommand": "git submodule update --init --recursive && npm install" }
 ```
 ## 🔧 Uso
-Importa controllers con `@log-ui/core/presentation/controllers/*`, componentes con `@log-ui/components/*`, y core con `@log-ui/core/*`. Los componentes de navegación aceptan `SiteNavConfig<TPath>` genérico para tus rutas específicas 🎯
+Importa controllers con `@log-ui/core/presentation/controllers/*`, componentes con `@log-ui/components/*`, hooks con `@log-ui/lib/hooks/*`, y core con `@log-ui/core/*`. Los componentes de navegación aceptan `SiteNavConfig<TPath>` genérico para tus rutas específicas 🎯
+
+### 🚨 Sistema de Toast para Errores
+El hook `useErrorToast` detecta automáticamente errores `DomainError` y muestra toasts con i18n según el `friendlyDesc`:
+
+**Comportamiento según `friendlyDesc`:**
+- `'d'` → NO muestra toast (error silencioso para logs)
+- `'tryAgainOrContact'` | `'credentials'` | `'credentials--mock'` → usa i18n predefinido
+- `IntlBase` (objeto con es/en/ca/de) → muestra mensaje directo multiidioma
+- `undefined` → muestra mensaje genérico "Ups, ha ocurrido un error"
+
+**NOT RECOMMENDED - Uso directo (sin hook)**
+```tsx
+import { showErrorToast } from "@log-ui/lib/hooks";
+import { useLocale, useTranslations } from "next-intl";
+
+try {
+  await someAction();
+} catch (error) {
+  showErrorToast(error as DomainError, locale, t);
+}
+```
+**NOT RECOMMENDED - Uso directo (con hook)**
+```tsx
+"use client";
+import { useState } from "react";
+import { useErrorToast } from "@log-ui/lib/hooks";
+import type { DomainError } from "@skrteeeeee/profile-domain";
+
+export function MyComponent() {
+  const [error, setError] = useState<DomainError | null>(null);
+  
+  // Detecta y muestra toast automáticamente según friendlyDesc
+  useErrorToast(error);
+
+  const handleAction = async () => {
+    try {
+      await someAction();
+    } catch (err) {
+      setError(err as DomainError);
+    }
+  };
+}
+```
+**SE RECOMIENDA UTILIZAR DomainError con el método `createDomainError`**
 ### 🔶 `<app>/src/lib/log-ui-data.tsx`
 #### Nav - 'fast links'
 ```ts

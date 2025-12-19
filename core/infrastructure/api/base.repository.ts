@@ -28,7 +28,8 @@ export abstract class ApiBaseRepository {
             updatePreTech: { endpoint: "pre-tech", method: "POST" }
         },
         [Modules.PROJECTS]: {
-            // Ejemplo: list: { endpoint: "projects", method: "GET" }
+            list: { endpoint: "project", method: "GET" },
+            readById: { endpoint: "project/:id", method: "GET" }
         },
         [Modules.ROLE]: {
             create: {endpoint: "role", method: "POST"},
