@@ -2,7 +2,7 @@
 
 import { GenerateLoginPayloadParams, LoginPayload, VerifyLoginPayloadParams, VerifyLoginPayloadResult } from "thirdweb/auth";
 import { ThirdwebAuthAdapter } from "../connectors/thirdweb-auth";
-import { RoleType, createDomainError, ErrorCodes } from "@skrteeeeee/profile-domain";
+import { createDomainError, ErrorCodes } from "@skrteeeeee/profile-domain";
 import { AuthRepository, ExtendedJWTPayload, JWTContext } from "@log-ui/core/application/interfaces/services/auth";
 import { CookieProvider } from "@log-ui/core/application/interfaces/services/cookie-provider";
 

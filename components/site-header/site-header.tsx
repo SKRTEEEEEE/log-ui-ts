@@ -83,7 +83,7 @@ export async function SiteHeader() {
         <nav className="flex items-center space-x-4 lg:space-x-6">
           {/* Logo */}
           <Link
-            href={dataSiteConfig.logo.path as any}
+            href={dataSiteConfig.logo.path as never}
             className="hidden md:flex items-center gap-2"
           >
             {dataSiteConfig.logo.render}
@@ -95,7 +95,7 @@ export async function SiteHeader() {
           {dataSiteConfig.paths.map((path) => (
             <Link
               key={path.id}
-              href={path.path as any}
+              href={path.path as never}
               className="text-sm font-medium transition-colors hover:text-primary hidden md:inline-block"
             >
               {path.title}
@@ -122,7 +122,7 @@ export async function SiteHeader() {
               ) : (
                 <Link
                   key={item.id}
-                  href={item.path as any}
+                  href={item.path as never}
                   className={cn(
                     buttonVariants({ variant: "ghost" }),
                     "w-10 px-0 inline-flex"

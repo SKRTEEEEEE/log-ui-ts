@@ -36,7 +36,7 @@ class ConcreteUploadThingAdapter extends UploadThingAdapter {
           // return { userId: user.sub }; //OJO CON ESTO!!!Lo ha hecho la IA i nose pq
           return { userId: user.ctx.id };
         })
-        .onUploadComplete(async ({ metadata, file }) => {
+        .onUploadComplete(async ({ metadata }) => {
           // This code RUNS ON YOUR SERVER after upload
           // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
           return { uploadedBy: metadata.userId };

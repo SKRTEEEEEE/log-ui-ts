@@ -21,7 +21,7 @@ import { VerificacionEmailAlert } from "./verificacion-email-alert";
 import SolicitudRoleButton from "./solicitud-role";
 import { useTranslations } from "next-intl";
 
-const FormButtonLabelDef = ({ t }: { t: any }) => {
+const FormButtonLabelDef = ({ t }: { t: (key: string) => string }) => {
   return (
       <>
           <UserCog width={20} height={20} />
@@ -31,7 +31,7 @@ const FormButtonLabelDef = ({ t }: { t: any }) => {
   );
 };
 
-const getUserSchema = (t: any) => z.object({
+const getUserSchema = (t: (key: string) => string) => z.object({
     nick: z.string().min(5, { message: t('nickMinError') }).max(25, { message: t('nickMaxError') }).optional(),
     img: z.string().nullable().optional(),
     email: z.string().email({ message: t('emailError') }).nullable().optional(),

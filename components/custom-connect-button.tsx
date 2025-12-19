@@ -175,9 +175,9 @@ export const CustomConnectButton = ({
                 console.info("check if logged in: ", {address})
                 return await isLoggedIn()
             },
-            doLogin: async (params: any) => {
+            doLogin: async (params: unknown) => {
                 console.info("logging in!")
-                const loginResult = await login(params)
+                const loginResult = await login(params as Parameters<typeof login>[0])
                 if (loginResult && loginResult.userData) {
                   setUser(loginResult.userData)
                   setImg(loginResult.userData.img || undefined)

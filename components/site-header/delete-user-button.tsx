@@ -14,7 +14,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 
-const getFormSchema = (t: any) => z.object({
+const getFormSchema = (t: (key: string) => string) => z.object({
     address: z.string(),
     validation: z.string().trim(),
 }).refine((data) => data.validation.trim() === data.address.trim(), {

@@ -57,7 +57,7 @@ export function MobileNav<TPath = string>({ dataSiteConfig, user }: MobileNavPro
       <SheetContent side="right" className="flex flex-col gap-4">
         <SheetTitle>
           <Link
-            href={dataSiteConfig.logo.path as any}
+            href={dataSiteConfig.logo.path as never}
             className="flex items-center gap-2 text-xl font-semibold"
             onClick={() => setOpen(false)}
           >
@@ -69,7 +69,7 @@ export function MobileNav<TPath = string>({ dataSiteConfig, user }: MobileNavPro
           {dataSiteConfig.paths.map((path) => (
             <Link
               key={path.id}
-              href={path.path as any}
+              href={path.path as never}
               className="text-base font-medium"
               onClick={() => setOpen(false)}
             >
@@ -92,7 +92,7 @@ export function MobileNav<TPath = string>({ dataSiteConfig, user }: MobileNavPro
             ) : (
               <Link
                 key={icon.id}
-                href={icon.path as any}
+                href={icon.path as never}
                 className="text-base font-medium"
                 onClick={() => setOpen(false)}
               >
