@@ -84,14 +84,14 @@ export function ErrorToastDemo() {
           variant="outline" 
           onClick={simulateSilentError}
         >
-          Silent Error (friendlyDesc: 'd')
+          Silent Error (friendlyDesc: &apos;d&apos;)
         </Button>
         
         <Button 
           variant="outline" 
           onClick={simulatePredefinedError}
         >
-          Predefined Error ('credentials')
+          Predefined Error (&apos;credentials&apos;)
         </Button>
         
         <Button 

@@ -65,7 +65,7 @@ export function useErrorToast(
     }
     
     // Fallback: si friendlyDesc es 'd' literal (no debería llegar aquí con domain package actual)
-    if (friendlyDesc === "d") {
+    if (typeof friendlyDesc === "string" && friendlyDesc === "d") {
       return;
     }
 
@@ -79,8 +79,10 @@ export function useErrorToast(
 
     // Caso 3: friendlyDesc es string predefinido → usar i18n
     if (typeof friendlyDesc === "string") {
-      const title = t(`predefined.${friendlyDesc}.title`);
-      const description = t(`predefined.${friendlyDesc}.description`);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const title = t(`predefined.${friendlyDesc}.title` as any);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const description = t(`predefined.${friendlyDesc}.description` as any);
       toast.error(title, { description });
       return;
     }
@@ -150,7 +152,7 @@ export function showErrorToast(
   }
   
   // Fallback
-  if (friendlyDesc === "d") {
+  if (typeof friendlyDesc === "string" && friendlyDesc === "d") {
     return;
   }
 
@@ -162,8 +164,10 @@ export function showErrorToast(
   }
 
   if (typeof friendlyDesc === "string") {
-    const title = t(`errors.predefined.${friendlyDesc}.title`);
-    const description = t(`errors.predefined.${friendlyDesc}.description`);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const title = t(`errors.predefined.${friendlyDesc}.title` as any);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const description = t(`errors.predefined.${friendlyDesc}.description` as any);
     toast.error(title, { description });
     return;
   }
