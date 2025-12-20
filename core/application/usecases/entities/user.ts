@@ -1,6 +1,6 @@
 import { VerifyLoginPayloadParams } from "thirdweb/auth";
 import { ApiUserRepository, UserUpdateData } from "@log-ui/core/infrastructure/api/user.repository";
-import { RoleType, createDomainError, ErrorCodes } from "@skrteeeeee/profile-domain";
+import { RoleType } from "@skrteeeeee/profile-domain";
 import { nextCookieAdapter } from "@log-ui/core/presentation/adapters/next-cookie.adapter";
 import { setJwtUC, getCookiesUC } from "../services/auth";
 
@@ -15,6 +15,9 @@ const getJwtToken = async (): Promise<string | undefined> => {
 /**
  * Obtiene los datos completos del usuario actual desde cookies + backend
  * LÓGICA DE NEGOCIO: Orquestación de obtener cookies → buscar user → mapear
+ * 
+ * @returns User data si está autenticado y el backend responde, null en caso contrario
+ * NO lanza errores - permite que la app funcione sin backend
  */
 export const getCurrentUserUC = async () => {
     try {
@@ -36,13 +39,10 @@ export const getCurrentUserUC = async () => {
             solicitud: userData.data.solicitud
         };
     } catch (error) {
-        throw createDomainError(
-            ErrorCodes.DATABASE_FIND,
-            getCurrentUserUC,
-            "getCurrentUserUC",
-            "tryAgainOrContact",
-            { optionalMessage: error instanceof Error ? error.message : String(error) }
-        );
+        // NO lanzar error - devolver null para que la app siga funcionando sin backend
+        // El error ya fue creado por apiReadUserByIdUC → repository
+        console.warn('[getCurrentUserUC] Backend unavailable:', error instanceof Error ? error.message : String(error));
+        return null;
     }
 }
 

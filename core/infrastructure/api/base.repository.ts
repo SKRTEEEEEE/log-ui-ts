@@ -1,3 +1,5 @@
+import { createDomainError, ErrorCodes } from "@skrteeeeee/profile-domain";
+
 export enum Modules {
     PRE_TECH = "PRE_TECH",
     PROJECTS = "PROJECTS",
@@ -79,7 +81,16 @@ export abstract class ApiBaseRepository {
                         method: target[prop].method
                     };
                 }
-                throw new Error(`Endpoint '${prop}' not found in module '${this.module}'`);
+                throw createDomainError(
+                    ErrorCodes.DATABASE_FIND,
+                    ApiBaseRepository,
+                    "getEndpointModule",
+                    "tryAgainOrContact",
+                    { 
+                        entity: "endpoint configuration",
+                        optionalMessage: `Endpoint '${prop}' not found in module '${this.module}'`
+                    }
+                );
             }
         });
     }

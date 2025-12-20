@@ -1,7 +1,8 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
-import { UploadThingError, UTApi } from "uploadthing/server";
+import { UTApi } from "uploadthing/server";
 import { authRepository } from "@log-ui/core/presentation/services/auth.service";
 import { AuthRepository } from "@log-ui/core/application/interfaces/services/auth";
+import { createDomainError, ErrorCodes } from "@skrteeeeee/profile-domain";
 
 export abstract class UploadThingAdapter {
   protected f = createUploadthing();
@@ -29,11 +30,18 @@ class ConcreteUploadThingAdapter extends UploadThingAdapter {
           // This code runs on your server before upload
           const user = await this.authRepository.getCookies();
 
-          // If you throw, the user will not be able to upload
-          if (user === false) throw new UploadThingError("Unauthorized");
+          // If unauthorized, prevent upload
+          if (user === false) {
+            throw createDomainError(
+              ErrorCodes.UNAUTHORIZED_ACTION,
+              ConcreteUploadThingAdapter,
+              "middleware",
+              "credentials",
+              { entity: "file upload", optionalMessage: "User not authenticated" }
+            );
+          }
 
           // Whatever is returned here is accessible in onUploadComplete as `metadata`
-          // return { userId: user.sub }; //OJO CON ESTO!!!Lo ha hecho la IA i nose pq
           return { userId: user.ctx.id };
         })
         .onUploadComplete(async ({ metadata }) => {
