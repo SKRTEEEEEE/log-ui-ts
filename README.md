@@ -18,20 +18,20 @@ npm install @skrteeeeee/profile-domain
 
 # 3. log-ui-ts usará el package desde node_modules del host
 ```
-
 **GitHub Token requerido:** Necesitas un token con scope `read:packages`. Sigue las [instrucciones de instalación](https://github.com/SKRTEEEEEE/profile-domain#installation).
-### 🎨 Shadcn/ui
-Componentes UI necesarios: `button`, `dialog`, `dropdown-menu`, `navigation-menu`, `popover`, `avatar`, `sheet`, `separator`, `input`, `form`, `select`, `label`, `alert`, `tabs`. Instala con `npx shadcn@latest add [componente]` para que `@/components/ui/*` resuelva correctamente 🎯
-### 🔐 Thirdweb
-Env vars requeridas: `NEXT_PUBLIC_THIRDWEB_CLIENT_ID`, `NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN`, `THIRDWEB_ADMIN_PRIVATE_KEY`. Sin ellas el ConnectButton no renderiza 🔐
+#### 🚨 [Auto-toast errors](error-handling-quick-guide.md)
 ### 🌈 Tailwind CSS 4
 Respeta `@log-ui/lib/globals.css` para tokens de color, gradientes y temas. Rompe diseños sin esta importación 🌈
 ### 🌓 next-themes
-Requerido para toggle de tema y persistencia. Provider debe envolver tu app en el layout raíz 🌓
+Requerido para toggle de tema y persistencia. Provider debe envolver tu app en el layout raíz (12 temas disponibles) 🌓
 ### 📤 uploadthing
 Router en `/api/uploadthing` usando `@log-ui/core/infrastructure/connectors/uploadthing-st`. Auth middleware valida JWT antes de upload 🚀
 ### 🌍 next-intl
 `SiteNavConfig<TPath>` es genérico para soportar tus rutas personalizadas. Define paths en `routing.ts` del host y pásalos al config 🧭
+### 🎨 Shadcn/ui
+Componentes UI necesarios: `button`, `dialog`, `dropdown-menu`, `navigation-menu`, `popover`, `avatar`, `sheet`, `separator`, `input`, `form`, `select`, `label`, `alert`, `tabs`. Instala con `npx shadcn@latest add [componente]` para que `@/components/ui/*` resuelva correctamente 🎯
+### 🔐 Thirdweb
+Env vars requeridas: `NEXT_PUBLIC_THIRDWEB_CLIENT_ID`, `NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN`, `THIRDWEB_ADMIN_PRIVATE_KEY`. Sin ellas el ConnectButton no renderiza 🔐
 ## 🚀 Setup Rápido
 ### 📦 Dependencias
 ```bash
@@ -71,48 +71,46 @@ git submodule update --init --recursive
 Importa controllers con `@log-ui/core/presentation/controllers/*`, componentes con `@log-ui/components/*`, hooks con `@log-ui/lib/hooks/*`, y core con `@log-ui/core/*`. Los componentes de navegación aceptan `SiteNavConfig<TPath>` genérico para tus rutas específicas 🎯
 
 ### 🚨 Sistema de Toast para Errores
-El hook `useErrorToast` detecta automáticamente errores `DomainError` y muestra toasts con i18n según el `friendlyDesc`:
+
+Sistema completo de manejo de errores con **toasts automáticos** que muestran:
+- **Título** contextual del error
+- **Descripción** detallada multiidioma
+- **Icono** visual según tipo de error (🛡️ ShieldX, 💥 ServerCrash, ⚠️ AlertCircle)
+
+**Flujo Completo (Server → Client):**
+
+1. **Server Component** captura error y serializa:
+   - `analyzeError()` convierte `DomainError` → `SerializedError` (JSON-serializable)
+   - Detecta automáticamente el icono por tipo de error (`meta.desc` o contenido)
+   - Permite override de título para contexto específico
+
+2. **Client Component** muestra toast:
+   - `<SectionFallbackProvider>` envuelve el fallback UI
+   - `useToastOnce()` muestra el toast automáticamente (solo una vez)
+   - `getErrorIcon()` resuelve el icono apropiado
 
 **Comportamiento según `friendlyDesc`:**
-- `'d'` → NO muestra toast (error silencioso para logs)
-- `'tryAgainOrContact'` | `'credentials'` | `'credentials--mock'` → usa i18n predefinido
-- `IntlBase` (objeto con es/en/ca/de) → muestra mensaje directo multiidioma
-- `undefined` → muestra mensaje genérico "Ups, ha ocurrido un error"
+- `'d'` → Silencioso (no muestra toast, solo logs)
+- `'credentials'` → Toast con icono 🛡️ ShieldX (autenticación)
+- `'tryAgainOrContact'` → Toast con icono 💥 ServerCrash (servidor/red)
+- `IntlBase` personalizado → Toast con icono ⚠️ AlertCircle (genérico)
+- `undefined` → Lanza error y rompe con ErrorBoundary
 
-**NOT RECOMMENDED - Uso directo (sin hook)**
-```tsx
-import { showErrorToast } from "@log-ui/lib/hooks";
-import { useLocale, useTranslations } from "next-intl";
+**Iconos con Enum ErrorIcon:**
+- `ErrorIcon.CREDENTIALS` → 🛡️ ShieldX (autenticación)
+- `ErrorIcon.TRY_AGAIN_OR_CONTACT` → 💥 ServerCrash (servidor/red)
+- `ErrorIcon.ALERT_CIRCLE` → ⚠️ AlertCircle (genérico, fallback)
+- Especificar en `meta.icon` o usar strings predefinidos que lo incluyen automáticamente
 
-try {
-  await someAction();
-} catch (error) {
-  showErrorToast(error as DomainError, locale, t);
-}
-```
-**NOT RECOMMENDED - Uso directo (con hook)**
-```tsx
-"use client";
-import { useState } from "react";
-import { useErrorToast } from "@log-ui/lib/hooks";
-import type { DomainError } from "@skrteeeeee/profile-domain";
+**📖 Documentación Completa:** Ver [error-handling-quick-guide.md](docs/error-handling-quick-guide.md) para ejemplos detallados en cada capa (Repository, Use Case, Server Component, Client Component).
 
-export function MyComponent() {
-  const [error, setError] = useState<DomainError | null>(null);
-  
-  // Detecta y muestra toast automáticamente según friendlyDesc
-  useErrorToast(error);
-
-  const handleAction = async () => {
-    try {
-      await someAction();
-    } catch (err) {
-      setError(err as DomainError);
-    }
-  };
-}
-```
-**SE RECOMIENDA UTILIZAR DomainError con el método `createDomainError`**
+**🎯 Exports Principales:**
+- `analyzeError()` - Analiza y serializa DomainError
+- `getErrorIcon()` - Resuelve ErrorIcon a componente React
+- `useToastOnce()` - Hook para mostrar toast automático
+- `SectionFallbackProvider` - Componente wrapper genérico
+- `ErrorIcon` - Enum para iconos ('credentials', 'tryAgainOrContact', 'alert-circle')
+- `SerializedError`, `IconType` - Tipos TypeScript
 ### 🔶 `<app>/src/lib/log-ui-data.tsx`
 #### Nav - 'fast links'
 ```ts
