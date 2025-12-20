@@ -10,25 +10,16 @@ import { Github,  Linkedin } from "lucide-react";
 import { siteConfig } from "@/lib/log-ui-data";
 import { getTranslations, getLocale } from "next-intl/server";
 import { Suspense } from "react";
-import { UserConnectWrapper, UserConnectSkeleton } from "./user-connect-wrapper";
-
-// Map next-intl locales to Thirdweb locales
-const getThirdwebLocale = (locale: string): "es_ES" | "en_US" | "ja_JP" | "tl_PH" => {
-  const localeMap: Record<string, "es_ES" | "en_US" | "ja_JP" | "tl_PH"> = {
-    'es': 'es_ES',
-    'en': 'en_US',
-    'de': 'en_US', // Thirdweb doesn't have German, use English as fallback
-    'ca': 'es_ES', // Thirdweb doesn't have Catalan, use Spanish as fallback
-  };
-  return localeMap[locale] || 'en_US';
-};
+import { UserConnectSkeleton } from "./user-connect-wrapper";
+import { CustomConnectButton } from "../custom-connect-button";
+import { SectionFallbackProvider } from "../section-fallback-provider";
+import { analyzeError } from "@log-ui/lib/error-serialization";
 
 export async function SiteHeader() {
   const user = await getCurrentUserUC(); // Solo para MobileNav
-  const locale = await getLocale();
+  const locale = await getLocale() as "es" | "en" | "ca" | "de";
   const t = await getTranslations();
   const tUser = await getTranslations('userProfile');
-  const thirdwebLocale = getThirdwebLocale(locale);
   
   // Pre-translate strings for client component
   const walletTranslations = {
@@ -137,9 +128,9 @@ export async function SiteHeader() {
 
           <div className="hidden w-40 md:block">
             <Suspense fallback={<UserConnectSkeleton />}>
-              <UserConnectWrapper
+              <UserConnectSection
                 connectButtonLabel={t("auth.login")}
-                locale={thirdwebLocale}
+                locale={locale}
                 walletTranslations={walletTranslations}
               />
             </Suspense>
@@ -155,4 +146,45 @@ export async function SiteHeader() {
       </div>
     </header>
   );
+}
+
+/**
+ * Server Component que maneja la carga del usuario y errores
+ * Usa SectionFallbackProvider para mostrar toast automático en caso de error
+ */
+async function UserConnectSection({
+  connectButtonLabel,
+  locale,
+  walletTranslations,
+}: {
+  connectButtonLabel: string;
+  locale: "es" | "en" | "ca" | "de";
+  walletTranslations: { yourWallet: string; walletSettings: string };
+}) {
+  try {
+    const user = await getCurrentUserUC();
+    
+    return (
+      <CustomConnectButton
+        connectButtonLabel={connectButtonLabel}
+        initialUser={user}
+        locale={locale}
+        walletTranslations={walletTranslations}
+      />
+    );
+  } catch (error) {
+    const serializedError = analyzeError(error);
+    
+    // Si es error silencioso ('d'), solo mostrar skeleton sin toast
+    if (serializedError.description.es === 'd') {
+      return <UserConnectSkeleton />;
+    }
+    
+    // Si hay error, mostrar skeleton + toast automático
+    return (
+      <SectionFallbackProvider error={serializedError}>
+        <UserConnectSkeleton />
+      </SectionFallbackProvider>
+    );
+  }
 }

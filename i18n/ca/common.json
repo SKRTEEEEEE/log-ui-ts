@@ -73,7 +73,8 @@
     "auth": {
         "login": "Iniciar sessió",
         "logout": "Tancar sessió",
-        "signUp": "Registrar-se"
+        "signUp": "Registrar-se",
+        "notAvailable": "No disponible"
     },
     "errors": {
         "generic": {
@@ -92,6 +93,22 @@
             "credentials--mock": {
                 "title": "Error d'autenticació",
                 "description": "L'autenticació simulada ha fallat"
+            },
+            "logout": {
+                "title": "Error al tancar sessió",
+                "description": "No s'ha pogut tancar la sessió correctament"
+            },
+            "checkLogin": {
+                "title": "Error de verificació",
+                "description": "No s'ha pogut verificar l'estat de sessió"
+            },
+            "generatePayload": {
+                "title": "Error d'autenticació",
+                "description": "No s'ha pogut generar el payload d'inici de sessió"
+            },
+            "loginError": {
+                "title": "Hi ha hagut un error amb l'inici de sessió",
+                "description": "Torna-ho a provar o espera una estona"
             }
         }
     }

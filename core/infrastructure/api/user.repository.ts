@@ -35,23 +35,52 @@ export class ApiUserRepository extends ApiBaseRepository {
     return await response.json();
   }
   async login(data: { payload: VerifyLoginPayloadParams }, jwt?: string) {
-    const response = await fetch(this.getEndpointModule("login"), {
-      method: this.endpoints.login.method,
-      headers: {
-        "Content-type": "application/json",
-        ...(jwt && { Authorization: `Bearer ${jwt}` }),
-        "x-signed-payload": `${JSON.stringify(data.payload)}`,
-      },
-    });
-    if (!response.ok)
+    try {
+      const response = await fetch(this.getEndpointModule("login"), {
+        method: this.endpoints.login.method,
+        headers: {
+          "Content-type": "application/json",
+          ...(jwt && { Authorization: `Bearer ${jwt}` }),
+          "x-signed-payload": `${JSON.stringify(data.payload)}`,
+        },
+      });
+      
+      if (!response.ok)
+        throw createDomainError(
+          ErrorCodes.UNAUTHORIZED_ACTION,
+          ApiUserRepository,
+          "login",
+          "credentials",
+          { optionalMessage: `Error during login: ${response.statusText}` }
+        );
+      
+      return await response.json();
+    } catch (error) {
+      // Si ya es DomainError, re-lanzar
+      if (error && typeof error === 'object' && 'type' in error) throw error;
+      
+      // Error de red (ECONNREFUSED, timeout) → Convertir a DomainError
       throw createDomainError(
-        ErrorCodes.UNAUTHORIZED_ACTION,
+        ErrorCodes.DATABASE_FIND,
         ApiUserRepository,
         "login",
-        "credentials",
-        { optionalMessage: `Error during login: ${response.statusText}` }
+        {
+          es: "No se pudo conectar con el servidor de autenticación.",
+          en: "Could not connect to authentication server.",
+          ca: "No s'ha pogut connectar amb el servidor d'autenticació.",
+          de: "Verbindung zum Authentifizierungsserver fehlgeschlagen."
+        },
+        {
+          entity: "user login",
+          desc: {
+            es: "Error de conexión",
+            en: "Connection error",
+            ca: "Error de connexió",
+            de: "Verbindungsfehler"
+          }
+        }
       );
-    return await response.json();
+    }
   }
   async readById(id: string, jwt?: string) {
     const response = await fetch(

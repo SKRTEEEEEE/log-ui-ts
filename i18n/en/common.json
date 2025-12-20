@@ -73,7 +73,8 @@
     "auth": {
         "login": "Log in",
         "logout": "Log out",
-        "signUp": "Sign up"
+        "signUp": "Sign up",
+        "notAvailable": "Not available"
     },
     "errors": {
         "generic": {
@@ -92,6 +93,22 @@
             "credentials--mock": {
                 "title": "Authentication error",
                 "description": "Mock authentication failed"
+            },
+            "logout": {
+                "title": "Logout error",
+                "description": "Could not logout correctly"
+            },
+            "checkLogin": {
+                "title": "Verification error",
+                "description": "Could not verify login status"
+            },
+            "generatePayload": {
+                "title": "Authentication error",
+                "description": "Could not generate login payload"
+            },
+            "loginError": {
+                "title": "An error occurred during login",
+                "description": "Try again or wait a moment"
             }
         }
     }

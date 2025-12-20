@@ -73,7 +73,8 @@
     "auth": {
         "login": "Iniciar sesión",
         "logout": "Cerrar sesión",
-        "signUp": "Registrarse"
+        "signUp": "Registrarse",
+        "notAvailable": "No disponible"
     },
     "errors": {
         "generic": {
@@ -92,6 +93,22 @@
             "credentials--mock": {
                 "title": "Error de autenticación",
                 "description": "La autenticación simulada falló"
+            },
+            "logout": {
+                "title": "Error al cerrar sesión",
+                "description": "No se pudo cerrar la sesión correctamente"
+            },
+            "checkLogin": {
+                "title": "Error de verificación",
+                "description": "No se pudo verificar el estado de sesión"
+            },
+            "generatePayload": {
+                "title": "Error de autenticación",
+                "description": "No se pudo generar el payload de inicio de sesión"
+            },
+            "loginError": {
+                "title": "Ha habido un error con el inicio de sesión",
+                "description": "Prueba de nuevo o espera un rato"
             }
         }
     }

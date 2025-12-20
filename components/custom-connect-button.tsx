@@ -9,6 +9,10 @@ import { ThirdwebClientConfig } from "@log-ui/core/infrastructure/connectors/thi
 import { useEffect, useState } from "react";
 import UserFormDialog from "./site-header/user-form-dialog";
 import { cn } from "@/lib/utils";
+import { analyzeError } from "@log-ui/lib/error-serialization";
+import { toast } from "sonner";
+import { getErrorIcon } from "@log-ui/lib/get-error-icon";
+import { useLocale, useTranslations } from "next-intl";
 
 const wallets = [
     inAppWallet({
@@ -88,34 +92,77 @@ type User = {
   solicitud: string | null;
 }
 
+// Map next-intl locales to Thirdweb locales
+const mapToThirdwebLocale = (locale: "es" | "en" | "ca" | "de"): "es_ES" | "en_US" | "de_DE" => {
+  const localeMap = {
+    'es': 'es_ES' as const,
+    'en': 'en_US' as const,
+    'ca': 'es_ES' as const, // Thirdweb no tiene catalán, usar español
+    'de': 'de_DE' as const,
+  };
+  return localeMap[locale];
+};
+
 export const CustomConnectButton = ({
   connectButtonLabel,
   initialUser = null,
   wrapperClassName,
   showUserFormButton = true,
-  locale = "es_ES",
+  locale = "es",
   walletTranslations = { yourWallet: 'Tu cartera', walletSettings: 'Configuración de tu cartera' },
 }:{
   connectButtonLabel?:string,
   initialUser?: User | null,
   wrapperClassName?: string,
   showUserFormButton?: boolean,
-  locale?: "es_ES" | "en_US" | "ja_JP" | "tl_PH",
+  locale?: "es" | "en" | "ca" | "de",
   walletTranslations?: { yourWallet: string; walletSettings: string }
 }) =>{
+    const thirdwebLocale = mapToThirdwebLocale(locale);
+    const currentLocale = useLocale() as "es" | "en" | "ca" | "de";
+    const t = useTranslations("errors.predefined");
     const [img, setImg] = useState<string|undefined>(initialUser?.img || undefined)
     const [user, setUser] = useState<User | null>(initialUser)
     const [isLogged, setIsLogged] = useState(!!initialUser)
 
-    const loadUserData = async () => {
-      const logged = await isLoggedIn()
-      setIsLogged(logged)
-      if (logged) {
-        const userData = await getUserData()
-        if (userData) {
-          setUser(userData)
-          setImg(userData.img || undefined)
+    /**
+     * Helper para mostrar toast de errores de autenticación
+     * @param error - Error capturado
+     * @param fallbackKey - Clave de traducción de fallback (logout, checkLogin, generatePayload)
+     */
+    const showAuthErrorToast = (error: unknown, fallbackKey: string) => {
+      try {
+        const serializedError = analyzeError(error);
+        
+        // Si no es error silencioso ('d'), mostrar toast
+        if (serializedError.description.es !== 'd') {
+          toast.error(serializedError.title[currentLocale], {
+            description: serializedError.description[currentLocale],
+            icon: getErrorIcon(serializedError.iconType)
+          });
         }
+      } catch (analyzeErr) {
+        // Fallback: usar traducciones predefinidas
+        toast.error(t(`${fallbackKey}.title`), {
+          description: t(`${fallbackKey}.description`)
+        });
+      }
+    };
+
+    const loadUserData = async () => {
+      try {
+        const logged = await isLoggedIn()
+        setIsLogged(logged)
+        if (logged) {
+          const userData = await getUserData()
+          if (userData) {
+            setUser(userData)
+            setImg(userData.img || undefined)
+          }
+        }
+      } catch (error) {
+        // Error al cargar datos, mostrar toast
+        showAuthErrorToast(error, "checkLogin");
       }
     }
 
@@ -143,7 +190,7 @@ export const CustomConnectButton = ({
             size: "compact",
             showThirdwebBranding: false,
           }}
-        locale={locale}
+        locale={thirdwebLocale}
         detailsModal={{
             footer: () => <div className="w-full text-2xl"><p>SKRT👾</p></div>,
             hideSwitchWallet: true,
@@ -173,23 +220,46 @@ export const CustomConnectButton = ({
         auth={{
             isLoggedIn: async (address: string) => {
                 console.info("check if logged in: ", {address})
-                return await isLoggedIn()
+                try {
+                  return await isLoggedIn()
+                } catch (error) {
+                  showAuthErrorToast(error, "checkLogin");
+                  return false;
+                }
             },
             doLogin: async (params: unknown) => {
                 console.info("logging in!")
-                const loginResult = await login(params as Parameters<typeof login>[0])
-                if (loginResult && loginResult.userData) {
-                  setUser(loginResult.userData)
-                  setImg(loginResult.userData.img || undefined)
-                  setIsLogged(true)
+                try {
+                  const loginResult = await login(params as Parameters<typeof login>[0])
+                  if (loginResult && loginResult.userData) {
+                    setUser(loginResult.userData)
+                    setImg(loginResult.userData.img || undefined)
+                    setIsLogged(true)
+                  }
+                } catch(error) {
+                  // Mostrar toast de error
+                  showAuthErrorToast(error, "loginError");
+                  // Re-lanzar para que Thirdweb maneje el flujo
+                  throw error;
                 }
             },
-            getLoginPayload: async ({ address }: { address: string }) => generatePayload({ address }),
+            getLoginPayload: async ({ address }: { address: string }) => {
+                try {
+                  return await generatePayload({ address });
+                } catch (error) {
+                  showAuthErrorToast(error, "generatePayload");
+                  throw error;
+                }
+            },
             doLogout:async () => {
-              await fetch('/api/logout', { method: 'GET' });
-              setIsLogged(false)
-              setUser(null)
-          }
+              try {
+                await fetch('/api/logout', { method: 'GET' });
+                setIsLogged(false)
+                setUser(null)
+              } catch (error) {
+                showAuthErrorToast(error, "logout");
+              }
+            }
         }}
         />
       </div>

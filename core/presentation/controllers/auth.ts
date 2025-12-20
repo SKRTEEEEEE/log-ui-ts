@@ -15,7 +15,26 @@ export async function logout(){
     await logoutUC()
 }
 export async function login(payload: VerifyLoginPayloadParams){
-    return await loginUC(payload);
+    // try {
+        return await loginUC(payload);
+    // } catch (error) {
+    //     // Serializar el error para que llegue al cliente
+    //     // Las Server Actions no pueden devolver instancias de Error
+    //     if (error && typeof error === 'object' && 'type' in error) {
+    //         // Es un DomainError, devolverlo como objeto plano
+    //         return {
+    //             error: true,
+    //             errorData: {
+    //                 type: (error as any).type,
+    //                 friendlyDesc: (error as any).friendlyDesc,
+    //                 meta: (error as any).meta,
+    //                 timestamp: (error as any).timestamp,
+    //             }
+    //         };
+    //     }
+    //     // Error genérico
+    //     throw error;
+    // }
 }
 
 export async function protAdmAct(){

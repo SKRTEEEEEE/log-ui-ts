@@ -73,7 +73,8 @@
   "auth": {
     "login": "Anmelden",
     "logout": "Abmelden",
-    "signUp": "Registrieren"
+    "signUp": "Registrieren",
+    "notAvailable": "Nicht verfügbar"
   },
   "errors": {
     "generic": {
@@ -92,6 +93,22 @@
       "credentials--mock": {
         "title": "Authentifizierungsfehler",
         "description": "Die simulierte Authentifizierung ist fehlgeschlagen"
+      },
+      "logout": {
+        "title": "Abmeldefehler",
+        "description": "Abmeldung konnte nicht korrekt durchgeführt werden"
+      },
+      "checkLogin": {
+        "title": "Überprüfungsfehler",
+        "description": "Anmeldestatus konnte nicht überprüft werden"
+      },
+      "generatePayload": {
+        "title": "Authentifizierungsfehler",
+        "description": "Login-Payload konnte nicht generiert werden"
+      },
+      "loginError": {
+        "title": "Ein Fehler ist beim Anmelden aufgetreten",
+        "description": "Versuche es erneut oder warte einen Moment"
       }
     }
   }
