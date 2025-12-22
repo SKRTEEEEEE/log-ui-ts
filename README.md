@@ -70,7 +70,7 @@ git submodule update --init --recursive
 ## 🔧 Uso
 Importa controllers con `@log-ui/core/presentation/controllers/*`, componentes con `@log-ui/components/*`, hooks con `@log-ui/lib/hooks/*`, y core con `@log-ui/core/*`. Los componentes de navegación aceptan `SiteNavConfig<TPath>` genérico para tus rutas específicas 🎯
 
-### 🚨 Sistema de Toast para Errores
+### 🚨 [Sistema de Toast para Errores](error-handling-quick-guide.md)
 
 Sistema completo de manejo de errores con **toasts automáticos** que muestran:
 - **Título** contextual del error

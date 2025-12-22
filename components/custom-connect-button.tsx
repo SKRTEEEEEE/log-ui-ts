@@ -6,7 +6,7 @@ import { createWallet, inAppWallet } from "thirdweb/wallets";
 import {  buttonVariants } from "@/components/ui/button";
 import { Wallet } from "lucide-react";
 import { ThirdwebClientConfig } from "@log-ui/core/infrastructure/connectors/thirdweb-auth";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import UserFormDialog from "./site-header/user-form-dialog";
 import { cn } from "@/lib/utils";
 import { analyzeError } from "@log-ui/lib/error-serialization";
@@ -130,7 +130,7 @@ export const CustomConnectButton = ({
      * @param error - Error capturado
      * @param fallbackKey - Clave de traducción de fallback (logout, checkLogin, generatePayload)
      */
-    const showAuthErrorToast = (error: unknown, fallbackKey: string) => {
+    const showAuthErrorToast = useCallback((error: unknown, fallbackKey: string) => {
       try {
         const serializedError = analyzeError(error);
         
@@ -141,15 +141,15 @@ export const CustomConnectButton = ({
             icon: getErrorIcon(serializedError.iconType)
           });
         }
-      } catch (analyzeErr) {
+      } catch {
         // Fallback: usar traducciones predefinidas
         toast.error(t(`${fallbackKey}.title`), {
           description: t(`${fallbackKey}.description`)
         });
       }
-    };
+    }, [currentLocale, t]);
 
-    const loadUserData = async () => {
+    const loadUserData = useCallback(async () => {
       try {
         const logged = await isLoggedIn()
         setIsLogged(logged)
@@ -164,14 +164,14 @@ export const CustomConnectButton = ({
         // Error al cargar datos, mostrar toast
         showAuthErrorToast(error, "checkLogin");
       }
-    }
+    }, [showAuthErrorToast])
 
     useEffect(() => {
       // Solo cargar si no hay usuario inicial
       if (!initialUser) {
         loadUserData()
       }
-    }, [initialUser])
+    }, [initialUser, loadUserData])
 
     return(
       <div suppressHydrationWarning className={cn("flex gap-2 items-center", wrapperClassName)}>
