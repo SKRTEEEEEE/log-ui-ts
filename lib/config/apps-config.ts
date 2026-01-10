@@ -55,7 +55,7 @@ function urlsMatch(url1: string, url2: string): boolean {
     const u1 = new URL(url1);
     const u2 = new URL(url2);
     return u1.origin === u2.origin;
-  } catch (error) {
+  } catch {
     // Handle invalid URLs gracefully
     return false;
   }

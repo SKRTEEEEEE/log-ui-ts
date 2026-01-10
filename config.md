@@ -48,7 +48,17 @@ export const siteConfig: SiteHeaderConfig = {
 };
 ```
 
-## 4. Consideraciones Finales
+## 4. `package.json` y `peerDependencies`
+
+El submódulo `log-ui-ts` contiene un `package.json` que **actúa como un "contrato-documento"**, no como un gestor de dependencias tradicional.
+
+-   **`peerDependencies`**: Define las librerías y versiones que `log-ui-ts` **espera** que el proyecto anfitrión (ej. `admin-next`) le proporcione.
+-   **No se valida automáticamente**: Debido a que `log-ui-ts` es un submódulo local, `npm` no verifica si el proyecto host cumple con estas `peerDependencies`.
+-   **Responsabilidad del desarrollador**: Es **obligación** del desarrollador asegurarse de que el `package.json` del proyecto host tiene instaladas las dependencias y versiones que `log-ui-ts` declara en su `package.json`.
+
+Este enfoque solo lograría la validación automática si `log-ui-ts` se publicara como un paquete de `npm` y se instalara formalmente en el proyecto host.
+
+## 5. Consideraciones Finales
 
 -   Asegura que `NEXT_PUBLIC_BASE_URL` esté definida y coincida con las URLs en `APPS_CONFIG`.
 -   Ejecuta `npm run test:cov` para verificar la configuración.
