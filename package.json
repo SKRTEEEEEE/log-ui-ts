@@ -1,0 +1,47 @@
+{
+  "name": "@log-ui/log-ui-ts",
+  "version": "0.0.1",
+  "description": "Shared UI components and utilities for micro-frontends",
+  "main": "index.ts",
+  "types": "index.d.ts",
+  "sideEffects": false,
+  "peerDependencies": {
+    "next": "^16.0.10",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "typescript": "^5.0.0",
+    "@skrteeeeee/profile-domain": "^0.0.2",
+    "thirdweb": "^5.112.0",
+    "uploadthing": "^7.7.4",
+    "@uploadthing/react": "^7.3.3",
+    "next-intl": "^4.4.0",
+    "sonner": "^2.0.7",
+    "lucide-react": "^0.544.0",
+    "zod": "^4.1.12",
+    "react-hook-form": "^7.66.0",
+    "@hookform/resolvers/zod": "^5.2.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.3.1",
+    "@radix-ui/react-alert-dialog": "^1.1.15",
+    "@radix-ui/react-avatar": "^1.1.10",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
+    "@radix-ui/react-icons": "^1.3.2",
+    "@radix-ui/react-label": "^2.1.8",
+    "@radix-ui/react-navigation-menu": "^1.2.14",
+    "@radix-ui/react-popover": "^1.1.15",
+    "@radix-ui/react-select": "^2.2.6",
+    "@radix-ui/react-separator": "^1.1.8",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/react-tabs": "^1.1.13"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    },
+    "@types/react-dom": {
+      "optional": true
+    }
+  }
+}

@@ -1,8 +1,8 @@
+import { JSX } from "react";
 /**
  * Configuration for micro-frontends in the apps menu
  */
-
-export interface AppConfig {
+interface AppConfig {
   id: string;
   url: {
     dev: string;
@@ -11,19 +11,21 @@ export interface AppConfig {
   featured?: boolean;
 }
 
+
+
 export const APPS_CONFIG: AppConfig[] = [
   {
     id: "profile",
     url: {
       dev: "http://localhost:3000",
-      prod: "https://dev.desarrollador.tech",
+      prod: "https://dev.desarollador.tech",
     },
   },
   {
     id: "agora",
     url: {
       dev: "http://localhost:3002",
-      prod: "https://agora.desarrollador.tech",
+      prod: "https://agora.desarollador.tech",
     },
   },
   {
@@ -36,42 +38,59 @@ export const APPS_CONFIG: AppConfig[] = [
 ];
 
 /**
+ * Configuration for the SiteHeader component
+ * - Should be used for the SiteHeader component in the Micro-frontend apps
+ */
+export type SiteHeaderConfig = {
+  name: string;
+  icon: JSX.Element;
+  paths: {
+    id: string;
+    path: string;
+  }[];
+}
+// Helper function to compare URLs by origin (protocol + hostname + port)
+function urlsMatch(url1: string, url2: string): boolean {
+  try {
+    const u1 = new URL(url1);
+    const u2 = new URL(url2);
+    return u1.origin === u2.origin;
+  } catch (error) {
+    // Handle invalid URLs gracefully
+    return false;
+  }
+}
+
+/**
  * Detect current app based on URL or environment
  */
 export function getCurrentApp(): string | null {
+  const isDevEnvironment = process.env.NODE_ENV === "development";
+
   if (typeof window === "undefined") {
     // Server-side: use environment variable
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    if (!baseUrl) return null;
+    const currentBaseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    if (!currentBaseUrl) return null;
 
-    // Match by URL pattern
-    if (baseUrl.includes("3000") || baseUrl.includes("dev.desarrollador")) {
-      return "profile";
+    for (const app of APPS_CONFIG) {
+      const appUrl = isDevEnvironment ? app.url.dev : app.url.prod;
+      if (urlsMatch(currentBaseUrl, appUrl)) {
+        return app.id;
+      }
     }
-    if (baseUrl.includes("3002") || baseUrl.includes("agora.desarrollador")) {
-      return "agora";
-    }
-    if (baseUrl.includes("3004") || baseUrl.includes("admin")) {
-      return "admin";
+    return null;
+  } else {
+    // Client-side: use window.location
+    const currentOrigin = window.location.origin;
+
+    for (const app of APPS_CONFIG) {
+      const appUrl = isDevEnvironment ? app.url.dev : app.url.prod;
+      if (urlsMatch(currentOrigin, appUrl)) {
+        return app.id;
+      }
     }
     return null;
   }
-
-  // Client-side: use window.location
-  const { hostname, port } = window.location;
-
-  // Match by port in dev
-  if (port === "3000" || hostname.includes("dev.desarrollador")) {
-    return "profile";
-  }
-  if (port === "3002" || hostname.includes("agora.desarrollador")) {
-    return "agora";
-  }
-  if (port === "3004" || hostname.includes("admin")) {
-    return "admin";
-  }
-
-  return null;
 }
 
 /**
@@ -88,13 +107,13 @@ export function getAppUrl(appId: string): string {
 /**
  * Get featured app configuration
  */
-export function getFeaturedApp(): AppConfig | undefined {
-  return APPS_CONFIG.find((app) => app.featured);
-}
+// export function getFeaturedApp(): AppConfig | undefined {
+//   return APPS_CONFIG.find((app) => app.featured);
+// }
 
 /**
  * Get non-featured apps
  */
-export function getSecondaryApps(): AppConfig[] {
-  return APPS_CONFIG.filter((app) => !app.featured);
-}
+// export function getSecondaryApps(): AppConfig[] {
+//   return APPS_CONFIG.filter((app) => !app.featured);
+// }
