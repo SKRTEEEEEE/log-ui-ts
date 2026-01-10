@@ -58,7 +58,17 @@ El submódulo `log-ui-ts` contiene un `package.json` que **actúa como un "contr
 
 Este enfoque solo lograría la validación automática si `log-ui-ts` se publicara como un paquete de `npm` y se instalara formalmente en el proyecto host.
 
-## 5. Consideraciones Finales
+## 5. Testing y Cobertura
+
+`log-ui-ts` utiliza una configuración de Vitest independiente para garantizar la calidad del código sin interferir con la configuración global del proyecto.
+
+- **Configuración:** `vitest.config.log-ui-ts.ts` (ubicado en la raíz). Define los alias `@log-ui`, el entorno `jsdom` y los umbrales de cobertura.
+- **Comandos:**
+  - `npm run vitest:run:l-ui`: Ejecuta los tests unitarios.
+  - `npm run vitest:cov:l-ui`: Ejecuta los tests con reporte de cobertura.
+- **Umbrales:** Se ha establecido un umbral del **20%** de cobertura en funciones, líneas y ramas para asegurar que el submódulo mantenga un estándar mínimo de calidad.
+
+## 6. Consideraciones Finales
 
 -   Asegura que `NEXT_PUBLIC_BASE_URL` esté definida y coincida con las URLs en `APPS_CONFIG`.
 -   Ejecuta `npm run test:cov` para verificar la configuración.

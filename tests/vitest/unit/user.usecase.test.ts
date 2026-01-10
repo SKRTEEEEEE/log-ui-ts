@@ -2,8 +2,6 @@ import { describe, it, expect, vi, Mock } from 'vitest';
 import { getCurrentUserUC } from '@log-ui/core/application/usecases/entities/user';
 import { getCookiesUC } from '@log-ui/core/application/usecases/services/auth';
 import { ApiUserRepository } from '@log-ui/core/infrastructure/api/user.repository';
-import { RoleType } from '@skrteeeeee/profile-domain';
-import { nextCookieAdapter } from '@log-ui/core/presentation/adapters/next-cookie.adapter';
 
 vi.mock('@log-ui/core/application/usecases/services/auth', () => ({
   getCookiesUC: vi.fn(),
