@@ -50,7 +50,7 @@ export type SiteHeaderConfig = {
   }[];
 }
 // Helper function to compare URLs by origin (protocol + hostname + port)
-function urlsMatch(url1: string, url2: string): boolean {
+export function urlsMatch(url1: string, url2: string): boolean {
   try {
     const u1 = new URL(url1);
     const u2 = new URL(url2);
