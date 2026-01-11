@@ -20,10 +20,6 @@ export async function uploadImg(formData: FormData) {
   return await uploadImageUC(img);
 }
 
-export async function deleteImg(img: string) {
-  return await deleteImageUC(img);
-}
-
 export async function updateImg(formData: FormData, url: string) {
   const img = formData.get("img") as File;
   if (!img) throw createDomainError(

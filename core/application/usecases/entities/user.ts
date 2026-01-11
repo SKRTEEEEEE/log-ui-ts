@@ -1,6 +1,6 @@
 import { VerifyLoginPayloadParams } from "thirdweb/auth";
 import { ApiUserRepository, UserUpdateData } from "@log-ui/core/infrastructure/api/user.repository";
-import { RoleType } from "@skrteeeeee/profile-domain";
+import { RoleType, createDomainError, ErrorCodes } from "@skrteeeeee/profile-domain";
 import { nextCookieAdapter } from "@log-ui/core/presentation/adapters/next-cookie.adapter";
 import { setJwtUC, getCookiesUC } from "../services/auth";
 
@@ -23,11 +23,11 @@ export const getCurrentUserUC = async () => {
     try {
         const cookies = await getCookiesUC();
         if (!cookies || !cookies.ctx) return null;
-        
+
         // Obtener datos completos del usuario desde el backend
         const userData = await apiReadUserByIdUC(cookies.ctx.id);
         if (!userData || !userData.success) return null;
-        
+
         return {
             id: userData.data.id,
             nick: userData.data.nick,
@@ -56,7 +56,7 @@ export const apiReadUsersUC = async () => {
     return await apiUserRepository.readAll(jwt)
 }
 
-export const apiLoginUserUC = async (data:{payload: VerifyLoginPayloadParams}) => {
+export const apiLoginUserUC = async (data: { payload: VerifyLoginPayloadParams }) => {
     const jwt = await getJwtToken();
     return await apiUserRepository.login(data, jwt)
 }
@@ -67,7 +67,7 @@ export const apiUpdateUserUC = async (data: {
 }) => {
     const jwt = await getJwtToken();
     const res = await apiUserRepository.update(data, jwt);
-    
+
     // LÓGICA DE NEGOCIO: Actualizar JWT con nuevos datos del usuario
     if (res && res.success && res.data) {
         await setJwtUC(data.payload, {
@@ -77,7 +77,7 @@ export const apiUpdateUserUC = async (data: {
             img: res.data.img || undefined,
         });
     }
-    
+
     return res;
 }
 
@@ -87,7 +87,23 @@ export const apiDeleteUserUC = async (data: {
     address: string;
 }) => {
     const jwt = await getJwtToken();
-    return await apiUserRepository.deleteById(data, jwt)
+    const res = await apiUserRepository.deleteById(data, jwt);
+
+    // LÓGICA DE NEGOCIO: Validar resultado de eliminación
+    if (!res.success) {
+        throw createDomainError(
+            ErrorCodes.DATABASE_ACTION,
+            apiDeleteUserUC,
+            "apiDeleteUserUC",
+            "tryAgainOrContact",
+            {
+                entity: "user",
+                optionalMessage: res.message || "Error deleting user"
+            }
+        );
+    }
+
+    return res;
 }
 
 export const apiUpdateUserSolicitudUC = async (data: {

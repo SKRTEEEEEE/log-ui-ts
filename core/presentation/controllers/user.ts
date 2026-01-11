@@ -3,7 +3,7 @@
 import { apiUpdateUserUC, apiDeleteUserUC, apiUpdateUserSolicitudUC, apiResendVerificationEmailUC } from "@log-ui/core/application/usecases/entities/user";
 import { revalidatePath } from "next/cache";
 import { LoginPayload } from "thirdweb/auth";
-import { RoleType, createDomainError, ErrorCodes } from "@skrteeeeee/profile-domain";
+import { RoleType } from "@skrteeeeee/profile-domain";
 
 export async function updateUser(
   id: string,
@@ -34,19 +34,8 @@ export async function deleteUser(
   id: string,
   address: string
 ) {
-  const res = await apiDeleteUserUC({ payload, id, address });
-  if (!res.success) {
-    throw createDomainError(
-      ErrorCodes.DATABASE_ACTION,
-      deleteUser,
-      "deleteUser",
-      "tryAgainOrContact",
-      { 
-        entity: "user",
-        optionalMessage: res.message || "Error deleting user"
-      }
-    );
-  }
+  // La validación de res.success ahora está en apiDeleteUserUC (Application Layer)
+  await apiDeleteUserUC({ payload, id, address });
   revalidatePath("/");
 }
 
